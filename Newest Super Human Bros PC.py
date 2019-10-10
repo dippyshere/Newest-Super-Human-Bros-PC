@@ -1,10 +1,5 @@
 #import items
-import pygame
-import sys
-import time
-import os
-import random
-import csv
+import pygame, sys, time, os, random, csv
 from datetime import timedelta
 #init it so it works
 pygame.init()
