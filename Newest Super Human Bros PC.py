@@ -1098,7 +1098,7 @@ def game_loop_1p():
             game_loop_1p()
         timetocomplete += 1
         #p2 of frame limiter
-        clock.tick(1)
+        clock.tick(30)
         #check whether closed to allow for safe quit
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -1310,7 +1310,7 @@ def game_lvl2():
             wall_left = False
             wall_right = False
         #p2 of frame limiter
-        clock.tick(1)
+        clock.tick(30)
         timetocomplete += 1
         if star1_get == True and star1_get_pause == False and mario.y == 655:
             pygame.time.delay(2000)
@@ -1573,7 +1573,7 @@ def game_lvl3():
             mario.jumpCount = 10
             mario.isJump = False
         #p2 of frame limiter
-        clock.tick(1)
+        clock.tick(30)
         timetocomplete += 1
         if star1_get == True and star1_get_pause == False and mario.y == 655:
             pygame.time.delay(2000)
@@ -1903,7 +1903,7 @@ def game_lvl4():
         else:
             secret4_draw = False
         #p2 of frame limiter
-        clock.tick(1)
+        clock.tick(30)
         timetocomplete += 1
         if star1_get == True and star1_get_pause == False and mario.y == 655:
             pygame.time.delay(2000)
@@ -2054,7 +2054,7 @@ def score_tally():
     qwerty = True
     print(str(timedelta(seconds=timetocomplete2)))
     while qwerty:
-        clock.tick(30)
+        clock.tick(27)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 #un-init pygame modules
