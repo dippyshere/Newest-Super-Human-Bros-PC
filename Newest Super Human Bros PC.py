@@ -142,8 +142,8 @@ secret4_draw = False
 oneup_draw2 = True
 nextlvl = 1
 score = 00000000
-global timetocomplete
-timetocomplete = "00:00:00"
+timetocomplete = 0
+pygame.display.set_icon(icon)
 
 #game save testing
 with open('scoredata.dataconfig','r') as data:
@@ -252,7 +252,7 @@ def cutscene():
     for i in range(1, 63):
         win.blit(cutscene_img[i], (0,0))
         pygame.display.update()
-        pygame.time.delay(26)
+        pygame.time.delay(45)
     pygame.time.delay(1500)
     fade_out(1280,720)
     if nextlvl == 1:
@@ -264,10 +264,11 @@ def cutscene():
     if nextlvl == 4:
         game_lvl4()
     if nextlvl == 5:
-        pygame.quit()
-        sys.exit()
+        score_tally()
 #draw fuction
 def redrawGameWindow():
+    timetocomplete2 = timetocomplete/30
+    time_yes = str(timedelta(seconds=timetocomplete2))
     global secret
     #global hitbox
     #global coin
@@ -334,10 +335,18 @@ def redrawGameWindow():
     textSurf, textRect = text_objects("Level  " + str(nextlvl), smallText)
     textRect.center = (420, 43)
     win.blit(textSurf, textRect)
+    font = pygame.font.Font("fonts/Mario64.ttf",40)
+    text = font.render("Time:  " + time_yes,True,black)
+    win.blit(text, (975,82))
+    #textSurf, textRect = text_objects("Time:  " + time_yes, smallText)
+    #textRect.center = (1280//2, 360)
+    #win.blit(textSurf, textRect)
     #lol pretty obvious what this is (update display whaaaaa omg so smart)
     pygame.display.update()
 
 def redrawGameWindow2():
+    timetocomplete2 = timetocomplete/30
+    time_yes = str(timedelta(seconds=timetocomplete2))
     win.blit(bg2, (0,0))
     win.blit(bg2olv, (0,0))
     #uwu for some depth do drawing before this comment for behind mario, and do drawing after for infront of mario
@@ -376,10 +385,15 @@ def redrawGameWindow2():
     win.blit(textSurf, textRect)
     textSurf, textRect = text_objects("Level  " + str(nextlvl), smallText)
     textRect.center = (420, 43)
+    font = pygame.font.Font("fonts/Mario64.ttf",40)
+    text = font.render("Time:  " + time_yes,True,black)
+    win.blit(text, (975,82))
     win.blit(textSurf, textRect)
     pygame.display.update()
 
 def redrawGameWindow3():
+    timetocomplete2 = timetocomplete/30
+    time_yes = str(timedelta(seconds=timetocomplete2))
     win.blit(bg, (0,0))
     win.blit(grnd, (0, 659))
     win.blit(bg3olv, (0,0))
@@ -423,9 +437,14 @@ def redrawGameWindow3():
     textSurf, textRect = text_objects("Level  " + str(nextlvl), smallText)
     textRect.center = (420, 43)
     win.blit(textSurf, textRect)
+    font = pygame.font.Font("fonts/Mario64.ttf",40)
+    text = font.render("Time:  " + time_yes,True,black)
+    win.blit(text, (975,82))
     pygame.display.update()
 
 def redrawGameWindow4():
+    timetocomplete2 = timetocomplete/30
+    time_yes = str(timedelta(seconds=timetocomplete2))
     win.blit(bg, (0,0))
     win.blit(bg4olv, (0,0))
     win.blit(grnd, (0, 659))
@@ -475,6 +494,9 @@ def redrawGameWindow4():
     textSurf, textRect = text_objects("Level  " + str(nextlvl), smallText)
     textRect.center = (420, 43)
     win.blit(textSurf, textRect)
+    font = pygame.font.Font("fonts/Mario64.ttf",40)
+    text = font.render("Time:  " + time_yes,True,black)
+    win.blit(text, (975,82))
     pygame.display.update()
 
 #define what mario and luigi is when we call the class
@@ -518,6 +540,7 @@ def name():
     #make cursor invisible
     pygame.mouse.set_visible(False)
     #again cache printing
+    pygame.display.set_icon(icon)
     gcache = globals()
     cache = str(sys.getsizeof(gcache))
     print(cache)
@@ -899,6 +922,8 @@ def game_loop_1p():
     global hudclock
     global nextlvl
     global score
+    global timetocomplete
+    global timetocomplete2
     nextlvl = 1
     timer = 0
     hudclock = 200
@@ -1076,8 +1101,9 @@ def game_loop_1p():
             fade_out(1280,720)
             hudclock = 150
             game_loop_1p()
+        timetocomplete += 1
         #p2 of frame limiter
-        clock.tick(30)
+        clock.tick(1)
         #check whether closed to allow for safe quit
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -1196,6 +1222,7 @@ def game_lvl2():
     global nextlvl
     global timer
     global score
+    global timetocomplete
     #reset variables
     timer = 0
     star1_get = False
@@ -1288,7 +1315,8 @@ def game_lvl2():
             wall_left = False
             wall_right = False
         #p2 of frame limiter
-        clock.tick(30)
+        clock.tick(1)
+        timetocomplete += 1
         if star1_get == True and star1_get_pause == False and mario.y == 655:
             pygame.time.delay(2000)
             star1_get_pause = True
@@ -1406,6 +1434,7 @@ def game_lvl3():
     global nextlvl
     global score
     global timer
+    global timetocomplete
     #reset variables
     timer = 0
     star1_get = False
@@ -1549,7 +1578,8 @@ def game_lvl3():
             mario.jumpCount = 10
             mario.isJump = False
         #p2 of frame limiter
-        clock.tick(30)
+        clock.tick(1)
+        timetocomplete += 1
         if star1_get == True and star1_get_pause == False and mario.y == 655:
             pygame.time.delay(2000)
             star1_get_pause = True
@@ -1668,6 +1698,7 @@ def game_lvl4():
     global nextlvl
     global score
     global timer
+    global timetocomplete
     global secret3_draw
     global secret4_draw
     #reset variables
@@ -1677,7 +1708,7 @@ def game_lvl4():
     mario.y = 682
     pygame.mouse.set_visible(False)
     jah = True
-    hudclock = 101
+    #hudclock = 101
     if hudclock <= 5:
         hudclock = 101
     wall_left = False
@@ -1877,7 +1908,8 @@ def game_lvl4():
         else:
             secret4_draw = False
         #p2 of frame limiter
-        clock.tick(30)
+        clock.tick(1)
+        timetocomplete += 1
         if star1_get == True and star1_get_pause == False and mario.y == 655:
             pygame.time.delay(2000)
             star1_get_pause = True
@@ -1982,21 +2014,42 @@ def game_lvl4():
         #redraw game window function to draw other entities that we want to draw
         redrawGameWindow4()
 def score_tally():
+    global timetocomplete
+    global score
+    global highscore
+    global besttime
+    highscore = 69
+    fade_white(1280, 720)
     win.fill(white)
+    timetocomplete2 = timetocomplete/30
+    time_yes = str(timedelta(seconds=timetocomplete2))
+    time_yes2 = time_yes[:-3]
+    if int(score) >= int(lb[0]):
+        highscore = score
+    else:
+        score = lb[0]
+    hum = lb[3].replace(":","")
+    hummm = hum.replace(".","")
+    testin = time_yes.replace(":", "")
+    testingg = testin.replace(".", "")
+    if testingg <= hum:
+        besttime = time_yes
+    else:
+        besttime = lb[3]
     smallText = pygame.font.Font("fonts/Mario64.ttf",40)
-    textSurf, textRect = text_objects("High score:  " + lb[0], smallText)
+    textSurf, textRect = text_objects("High score:  " + str(highscore), smallText)
     textRect.center = (1280//2, ((720//2)-150))
     win.blit(textSurf, textRect)
-    textSurf, textRect = text_objects("Your Score:  " + lb[1], smallText)
+    textSurf, textRect = text_objects("Your Score:  " + str(score), smallText)
     textRect.center = (1280//2, ((720//2)-100) )
     win.blit(textSurf, textRect)
     textSurf, textRect = text_objects("Developer High Score:  " + lb[2], smallText)
     textRect.center = (1280//2, (-50+(720//2)) )
     win.blit(textSurf, textRect)
-    textSurf, textRect = text_objects("Time to complete:  " + timetocomplete, smallText)
+    textSurf, textRect = text_objects("Time to complete:  " + time_yes, smallText)
     textRect.center = (1280//2, (50+(720//2)) )
     win.blit(textSurf, textRect)
-    textSurf, textRect = text_objects("Fastest time:  " + lb[3], smallText)
+    textSurf, textRect = text_objects("Fastest time:  " + "00:00:16.600000", smallText)
     textRect.center = (1280//2, (100+(720//2)) )
     win.blit(textSurf, textRect)
     textSurf, textRect = text_objects("Hours : Minutes : Seconds.Milliseconds", smallText)
@@ -2004,7 +2057,7 @@ def score_tally():
     win.blit(textSurf, textRect)
     pygame.display.update()
     qwerty = True
-    print(str(timedelta(milliseconds=135000)))
+    print(str(timedelta(seconds=timetocomplete2)))
     while qwerty:
         clock.tick(30)
         for event in pygame.event.get():
