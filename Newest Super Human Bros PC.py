@@ -135,6 +135,7 @@ secret = False
 secret3_draw = False
 secret4_draw = False
 oneup_draw2 = True
+hudclock = 200
 nextlvl = 1
 score = 00000000
 timetocomplete = 0
@@ -252,6 +253,7 @@ def cutscene():
     fade_out(1280,720)
     if nextlvl == 1:
         game_loop_1p()
+        #score_tally()
     if nextlvl == 2:
         game_lvl2()
     if nextlvl == 3:
@@ -642,6 +644,7 @@ def game_intro():
                 #wait a bit
                 pygame.time.wait(100)
                 #call the one player function
+                #game_loop_1p()
                 game_loop_1p()
         #else if it is over the uit button
         elif 450+350 > mouse[0] > 450 and 480+80 > mouse[1] > 480:
