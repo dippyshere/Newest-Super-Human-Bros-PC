@@ -2,7 +2,7 @@ Newest Super Human Bros PC
 ====
 Python game using pygame for IST 2019 Year 9 Project
 
-
+Download: https://github.com/dippyshere/Newest-Super-Human-Bros-PC/archive/v0.7.1-beta.zip
 
 
 
