@@ -248,8 +248,8 @@ def cutscene():
     for i in range(1, 63):
         win.blit(cutscene_img[i], (0,0))
         pygame.display.update()
-        pygame.time.delay(45)
-    pygame.time.delay(1500)
+        time.sleep(0.045)
+    time.sleep(1.5)
     fade_out(1280,720)
     if nextlvl == 1:
         game_loop_1p()
@@ -521,8 +521,8 @@ def fade_out(width, height):
         win.blit(black1, (0,0))
         #update the display
         pygame.display.update()
-        #delay the running of the next itteration until 10 ms passes
-        pygame.time.delay(10)
+        #sleep the running of the next itteration until 10 ms passes
+        time.sleep(0.01)
 def fade_white(width, height):
     #dito
     white1 = pygame.Surface((width, height))
@@ -531,7 +531,7 @@ def fade_white(width, height):
         white1.set_alpha(alpha)
         win.blit(white1, (0,0))
         pygame.display.update()
-        pygame.time.delay(10)
+        time.sleep(0.01)
 #nearly less than one second of my name at begining of running program
 def name():
     #make cursor invisible
@@ -1013,7 +1013,7 @@ def game_loop_1p():
             star.play()
             score += 10000
             redrawGameWindow()
-            pygame.time.delay(500)
+            time.sleep(0.5)
             pygame.mixer.music.stop()
             cutscene()
         if hittest == 8 or hittest == 15 or hittest == 16:
@@ -1083,19 +1083,19 @@ def game_loop_1p():
         if timer == 0 and hudclock == 100:
             pygame.mixer.music.stop()
             hurryup.play()
-            pygame.time.delay(400)
+            time.sleep(0.4)
             music = pygame.mixer.music.load('audio/music_faster.mp3')
             pygame.mixer.music.play(-1)
         if timer == 0 and hudclock == 0:
             redrawGameWindow()
             death.play()
-            pygame.time.delay(200)
+            time.sleep(0.2)
             score -= 100
             oneup_cntr -= 1
             pygame.mixer.music.stop()
             music = pygame.mixer.music.load('audio/outoftime.mp3')
             pygame.mixer.music.play(0)
-            pygame.time.delay(1000)
+            time.sleep(1)
             fade_out(1280,720)
             hudclock = 150
             game_loop_1p()
@@ -1118,7 +1118,7 @@ def game_loop_1p():
         keys = pygame.key.get_pressed()
         #key to go left
         if star1_get == True and star1_get_pause == False and mario.y == 655:
-            pygame.time.delay(2000)
+            time.sleep(2)
             star1_get_pause = True
         if keys[pygame.K_a] and mario.x > mario.vel and not(wall_left):
             mario.idle_type = False
@@ -1268,7 +1268,7 @@ def game_lvl2():
             star.play()
             score += 10000
             redrawGameWindow2()
-            pygame.time.delay(500)
+            time.sleep(0.5)
             pygame.mixer.music.stop()
             cutscene()
             game_lvl3()
@@ -1288,19 +1288,19 @@ def game_lvl2():
         if timer == 0 and hudclock == 100:
             pygame.mixer.music.stop()
             hurryup.play()
-            pygame.time.delay(400)
+            time.sleep(0.4)
             music = pygame.mixer.music.load('audio/music_faster.mp3')
             pygame.mixer.music.play(-1)
         if timer == 0 and hudclock == 0:
             redrawGameWindow2()
             death.play()
-            pygame.time.delay(200)
+            time.sleep(0.2)
             score -= 100
             oneup_cntr -= 1
             pygame.mixer.music.stop()
             music = pygame.mixer.music.load('audio/outoftime.mp3')
             pygame.mixer.music.play(0)
-            pygame.time.delay(1000)
+            time.sleep(1)
             fade_out(1280,720)
             hudclock = 150
             game_lvl2()
@@ -1316,7 +1316,7 @@ def game_lvl2():
         clock.tick(30)
         timetocomplete += 1
         if star1_get == True and star1_get_pause == False and mario.y == 655:
-            pygame.time.delay(2000)
+            time.sleep(2)
             star1_get_pause = True
         #check whether closed to allow for safe quit
         for event in pygame.event.get():
@@ -1497,7 +1497,7 @@ def game_lvl3():
             score += 10000
             star.play()
             redrawGameWindow3()
-            pygame.time.delay(500)
+            time.sleep(0.5)
             pygame.mixer.music.stop()
             cutscene()
         if hittest == 8 or hittest == 12 or hittest == 13:
@@ -1512,26 +1512,26 @@ def game_lvl3():
         if timer == 0 and hudclock == 100:
             pygame.mixer.music.stop()
             hurryup.play()
-            pygame.time.delay(400)
+            time.sleep(0.4)
             music = pygame.mixer.music.load('audio/music_faster.mp3')
             pygame.mixer.music.play(-1)
         if timer == 0 and hudclock == 0:
             redrawGameWindow3()
             death.play()
-            pygame.time.delay(200)
+            time.sleep(0.2)
             score -= 100
             oneup_cntr -= 1
             pygame.mixer.music.stop()
             music = pygame.mixer.music.load('audio/outoftime.mp3')
             pygame.mixer.music.play(0)
-            pygame.time.delay(1000)
+            time.sleep(1)
             fade_out(1280,720)
             game_lvl3()
         if timer == 0 and hudclock == 100:
             hurryup.play()
         if timer == 30 and hudclock == 0:
           death.play()
-          pygame.time.delay(200)
+          time.sleep(0.2)
           score -= 100
           oneup_cntr -= 1
           pygame.mixer.music.stop()
@@ -1579,7 +1579,7 @@ def game_lvl3():
         clock.tick(30)
         timetocomplete += 1
         if star1_get == True and star1_get_pause == False and mario.y == 655:
-            pygame.time.delay(2000)
+            time.sleep(2)
             star1_get_pause = True
         #check whether closed to allow for safe quit
         for event in pygame.event.get():
@@ -1789,7 +1789,7 @@ def game_lvl4():
             score += 10000
             star.play()
             redrawGameWindow4()
-            pygame.time.delay(500)
+            time.sleep(0.5)
             pygame.mixer.music.stop()
             cutscene()
         if hittest == 8 or hittest == 12 or hittest == 13 or hittest == 21 or hittest == 22 or hittest == 23 or hittest == 24:
@@ -1804,19 +1804,19 @@ def game_lvl4():
         if timer == 0 and hudclock == 100:
             pygame.mixer.music.stop()
             hurryup.play()
-            pygame.time.delay(400)
+            time.sleep(0.4)
             music = pygame.mixer.music.load('audio/music_faster.mp3')
             pygame.mixer.music.play(-1)
         if timer == 0 and hudclock == 0:
             redrawGameWindow4()
             death.play()
-            pygame.time.delay(200)
+            time.sleep(0.2)
             score -= 100
             oneup_cntr -= 1
             pygame.mixer.music.stop()
             music = pygame.mixer.music.load('audio/outoftime.mp3')
             pygame.mixer.music.play(0)
-            pygame.time.delay(1000)
+            time.sleep(1)
             hudclock = 101
             fade_out(1280,720)
             game_lvl4()
@@ -1909,7 +1909,7 @@ def game_lvl4():
         clock.tick(30)
         timetocomplete += 1
         if star1_get == True and star1_get_pause == False and mario.y == 655:
-            pygame.time.delay(2000)
+            time.sleep(2)
             star1_get_pause = True
         #check whether closed to allow for safe quit
         for event in pygame.event.get():
