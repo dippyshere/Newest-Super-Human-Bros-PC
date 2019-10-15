@@ -18,7 +18,7 @@ pygame.display.set_caption("Newest Super Human Bros PC")
 #loading beacuse it takes a while for those lists down there
 loadimg = pygame.image.load('pictures/loading.png')
 win.blit(loadimg, (0,0))
-pygame.display.update()
+pygame.display.flip()
 
 #sounds
 jumpsnd = pygame.mixer.Sound('audio/jump.wav')
@@ -247,7 +247,7 @@ def cutscene():
     nextlvl += 1
     for i in range(1, 63):
         win.blit(cutscene_img[i], (0,0))
-        pygame.display.update()
+        pygame.display.flip()
         time.sleep(0.045)
     time.sleep(1.5)
     fade_out(1280,720)
@@ -520,7 +520,7 @@ def fade_out(width, height):
         #draw the surface
         win.blit(black1, (0,0))
         #update the display
-        pygame.display.update()
+        pygame.display.flip()
         #sleep the running of the next itteration until 10 ms passes
         time.sleep(0.01)
 def fade_white(width, height):
@@ -530,7 +530,7 @@ def fade_white(width, height):
     for alpha in range(0, 50):
         white1.set_alpha(alpha)
         win.blit(white1, (0,0))
-        pygame.display.update()
+        pygame.display.flip()
         time.sleep(0.01)
 #nearly less than one second of my name at begining of running program
 def name():
@@ -564,7 +564,7 @@ def name():
     fade_white(1280,720)
     win.fill(white)
     win.blit(TextSurf, TextRect)
-    pygame.display.update()
+    pygame.display.flip()
     #print cache again
     print('Global cache: ' + cache)
     #waits one second before moving on
