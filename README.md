@@ -7,7 +7,6 @@ This game is a 2D platformer where your main objective is to reach the end of ea
 ====
 NOTES:
 Assets are based off Nintendo IP such as the main character, tiles, background, cutscene tracing, icon, logo and music. The tracing was traced by me and other things were put together but the music, base tiles, logo and background; and character are not mine. The character pictures are cropped from a sprite sheet posted on The Spriters Resource by LarryInc64 https://www.spriters-resource.com/ds_dsi/newsupermariobros/sheet/31487/.
-====
 
 Download: https://github.com/dippyshere/Newest-Super-Human-Bros-PC/releases
 
