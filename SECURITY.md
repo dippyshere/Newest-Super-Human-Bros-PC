@@ -11,4 +11,4 @@
 
 ## Reporting a Vulnerability
 
-Report security issues as an issue and tag me.
+Deal with it how you feel you should. I am not sure as I am learning Git still. I think issues or security advisory would be a safe bet though. Thank you. 
