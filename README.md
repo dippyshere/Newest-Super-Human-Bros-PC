@@ -22,3 +22,4 @@ Fancy Badges:
 ![badge](https://img.shields.io/github/issues/dippyshere/Newest-Super-Human-Bros-PC)
 ![badge](https://img.shields.io/github/issues-closed/dippyshere/Newest-Super-Human-Bros-PC)
 ![badge](https://img.shields.io/github/languages/code-size/dippyshere/Newest-Super-Human-Bros-PC)
+[![codebeat badge](https://codebeat.co/badges/e333927e-0f05-462e-bc35-034ed87680a9)](https://codebeat.co/projects/github-com-dippyshere-newest-super-human-bros-pc-master)
