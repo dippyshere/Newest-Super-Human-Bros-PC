@@ -632,13 +632,6 @@ def name():
     nextlvl = 1
     score = 00000000
     timetocomplete = 0
-    #again cache printing
-    pygame.display.set_icon(icon)
-    gcache = globals()
-    cache = str(sys.getsizeof(gcache))
-    print(cache)
-    #see if this was called or not
-    print('name()')
     win.fill(black)
     #make name
     largeText = pygame.font.Font('fonts/SuperMario256.ttf',90)
@@ -652,8 +645,6 @@ def name():
     win.fill(white)
     win.blit(TextSurf, TextRect)
     pygame.display.flip()
-    #print cache again
-    print('Global cache: ' + cache)
     #waits one second before moving on
     pygame.event.pump()
     please_work = True
@@ -672,16 +663,8 @@ def game_intro():
     #for when going back into the fuction, avoid unintended button presses
     time.sleep(0.2)
     pygame.mouse.set_visible(True)
-    #just to see if this was called or not
-    print('game_intro()')
-    #just to see cache
-    gcache = globals()
-    cache = str(sys.getsizeof(gcache))
-    print('Global cache: ' + cache)
     #once again make global so it exists outside this function
     global luigi2
-    #print its value for debugging
-    print(luigi2)
     #play our music
     music = pygame.mixer.music.load('audio/sm64fs.mp3')
     pygame.mixer.music.play(-1)
@@ -696,8 +679,6 @@ def game_intro():
             #if any of those equal quit (only called when application close is
             #announced
             if event.type == pygame.QUIT:
-                #print debuging info
-                print('Final Cache: ' + cache)
                 #uninitialise pygame and close it
                 pygame.quit()
                 #exit with style via sys exit
@@ -784,7 +765,6 @@ def game_intro():
                 pygame.mixer.music.pause()
                 #play nut sound
                 nut = pygame.mixer.Sound('audio/soundnut.wav')
-                print('nut')
                 nut.play()
                 time.sleep(0.5)
                 pygame.mixer.music.play(-1)
@@ -840,18 +820,11 @@ def game_intro():
 #quit function
 def quit_a():
     pygame.mouse.set_visible(True)
-    gcache = globals()
-    cache = str(sys.getsizeof(gcache))
-    print('Global cache: ' + cache)
-    print('quit')
     yes = True
     time.sleep(0.2)
     while yes:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                gcache = globals()
-                cache = str(sys.getsizeof(gcache))
-                print('Final Cache: ' + cache)
                 pygame.quit()
                 sys.exit()
                 quit()
@@ -896,7 +869,6 @@ def settings():
     Music type
     Frame rate cap
     """
-    print('settings')
     gusty_garden = True
     pygame.mouse.set_visible(True)
     #this timer is important so as to allow the user to let go of the mouse button before bringing up this screen
@@ -915,9 +887,6 @@ def settings():
         for event in pygame.event.get():
             #ive explained it already
             if event.type == pygame.QUIT:
-                gcache = globals()
-                cache = str(sys.getsizeof(gcache))
-                print('Final Cache: ' + cache)
                 pygame.quit()
                 sys.exit()
                 quit()
@@ -929,11 +898,6 @@ def settings():
         
 def instructions():
     pygame.mouse.set_visible(True)
-    gcache = globals()
-    cache = str(sys.getsizeof(gcache))
-    print('Global cache: ' + cache)
-    #debug to see if it called instructions or not
-    print('instructions')
     hmmm = True
     #this timer is important so as to allow the user to let go of the mouse button before bringing up this screen
     #otherwise it will hit the button under the cursor if the button is still down
@@ -943,9 +907,6 @@ def instructions():
         for event in pygame.event.get():
             #ive explained it already
             if event.type == pygame.QUIT:
-                gcache = globals()
-                cache = str(sys.getsizeof(gcache))
-                print('Final Cache: ' + cache)
                 pygame.quit()
                 sys.exit()
                 quit()
@@ -1031,12 +992,7 @@ def game_loop_1p():
     if hudclock <= 5:
         hudclock = 101
     pygame.mouse.set_visible(False)
-    gcache = globals()
-    cache = str(sys.getsizeof(gcache))
-    print('Global cache: ' + cache)
-    print('1 player')
     global luigi2
-    print(luigi2)
     jah = True
     #music
     music = pygame.mixer.music.load('audio/music.mp3')
@@ -1330,9 +1286,6 @@ def game_loop_1p():
         #check whether closed to allow for safe quit
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                gcache = globals()
-                cache = str(sys.getsizeof(gcache))
-                print('Final Cache: ' + cache)
                 #un-init pygame modules
                 pygame.quit()
                 #sys exit
