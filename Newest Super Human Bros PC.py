@@ -16,6 +16,7 @@ pygame.mixer.init(48000, -16, 2, 1024)
 X = 1280
 Y = 720
 win = pygame.display.set_mode((X,Y),RESIZABLE)
+pygame.event.pump()
 
 #icon
 icon = pygame.image.load('pictures/icon.png')
@@ -31,6 +32,7 @@ loadimg = pygame.image.load('pictures/loading.png')
 win.blit(loadimg, (0,0))
 #update the screen
 pygame.display.flip()
+pygame.event.pump()
 
 """sounds"""
 #jump
@@ -312,10 +314,18 @@ def cutscene():
     nextlvl += 1
     #this changes the frame by itteration in the for loop and list number
     for i in range(0, 63):
+        pygame.event.pump()
         win.blit(cutscene_img[i], (0,0))
         pygame.display.flip()
-        time.sleep(0.045)
-    time.sleep(1.5)
+        clock.tick(15.4757281553398)
+    please_work = True
+    count0r = 0
+    while please_work:
+        pygame.event.pump()
+        count0r += 1
+        clock.tick(30)
+        if count0r == 45:
+            please_work = False
     fade_out(1280,720)
     if nextlvl == 1:
         game_loop_1p()
@@ -582,6 +592,7 @@ def fade_out(width, height):
     black1.fill((0,0,0))
     #run over this 100 times
     for alpha in range(0, 100):
+        pygame.event.pump()
         #change the alpha (transperancy) to the itteration in the loop (0 - 100)
         black1.set_alpha(alpha)
         #draw the surface
@@ -595,6 +606,7 @@ def fade_white(width, height):
     white1 = pygame.Surface((width, height))
     white1.fill((255,255,255))
     for alpha in range(0, 50):
+        pygame.event.pump()
         white1.set_alpha(alpha)
         win.blit(white1, (0,0))
         pygame.display.flip()
@@ -627,15 +639,6 @@ def name():
     print(cache)
     #see if this was called or not
     print('name()')
-    #i dont know why this is here it only runs once lol just incase the program is killed just before it passes over this loop
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            gcache = globals()
-            cache = str(sys.getsizeof(gcache))
-            print('Final Cache: ' + cache)
-            pygame.quit()
-            sys.exit()
-            quit()
     win.fill(black)
     #make name
     largeText = pygame.font.Font('fonts/SuperMario256.ttf',90)
@@ -652,7 +655,15 @@ def name():
     #print cache again
     print('Global cache: ' + cache)
     #waits one second before moving on
-    time.sleep(1)
+    pygame.event.pump()
+    please_work = True
+    count0r = 0
+    while please_work:
+        pygame.event.pump()
+        count0r += 1
+        clock.tick(30)
+        if count0r == 30:
+            please_work = False
     #calls our next function
     game_intro()
 
@@ -2318,8 +2329,10 @@ def game_lvl4():
     pygame.mixer.music.set_volume(0.5)
     redrawGameWindow4()
     while jah:
-        if mario.jumpCount <= -7:
-            mario.jumpCount = -7
+        if mario.jumpCount <= -6:
+            mario.jumpCount = -6
+        if mario.jumpCount <= -6:
+            mario.jumpCount = -6
         hitbox = pygame.Rect(mario.x, mario.y, mario.width, mario.height)
         luigihit = pygame.Rect(luigi.x, luigi.y, luigi.width, luigi.height)
         startst = pygame.Rect(1150, 500, 32, 32)
@@ -2517,6 +2530,116 @@ def game_lvl4():
             secret4_draw = True
         else:
             secret4_draw = False
+        if hittest2 == -1 and grndtst2 == False and trampcheck12 == False and trampcheck22 == False and trampcheck32 == False and not(luigi.isJump):
+            luigi.y -= (luigi.fall * abs(luigi.fall)) // 2
+            luigi.fall -= 0.75
+            if luigi.fall <= -3:
+                luigi.fall == 0
+                luigi.isJump = True
+                luigi.jumpCount = -3
+        else:
+            luigi.fall = 0
+        if hittest2 == -1:
+            wall_left2 = False
+            wall_right2 = False
+        if cointest69 == True and coin3_draw == True:
+            coin3_draw = False
+            coin_counter += 1
+            score += 100
+            coin_snd.play()
+        if hittest2 == 0 and star1_get == False:
+            star1_get = True
+            star1_get_pause = True
+            star_cntr += 1
+            score += 10000
+            star.play()
+            redrawGameWindow4()
+            time.sleep(0.5)
+            pygame.mixer.music.stop()
+            cutscene()
+        if hittest2 == 8 or hittest2 == 12 or hittest2 == 13 or hittest2 == 21 or hittest2 == 22 or hittest2 == 23 or hittest2 == 24:
+            wall_left2 = True
+            wall_right2 = False
+        if hittest2 == 7 or hittest2 == 10 or hittest2 == 11 or hittest2 == 19 or hittest2 == 20:
+            wall_left2 = False
+            wall_right2 = True
+        if hittest2 == 5 or hittest2 == 6 or hittest2 == 17 or hittest2 == 18:
+            death.play()
+            score -= 100
+            oneup_cntr -= 1
+            luigi.y = 682-luigi.height
+            luigi.x = 55
+            wall_left = False
+            wall_right = False
+        if hittest2 == 2:
+            luigi.y = 55-luigi.height
+            luigi.jumpCount = 10
+            luigi.isJump = False
+        if hittest2 == 3:
+            luigi.y = 515-luigi.height
+            luigi.jumpCount = 10
+            luigi.isJump = False
+        if hittest2 == 4:
+            luigi.y = 510-luigi.height
+            luigi.jumpCount = 10
+            luigi.isJump = False
+        if hittest2 == 1 or hittest2 == 9:
+            luigi.jumpCount = -1
+        if hittest2 == 14:
+            luigi.y = 160-luigi.height
+            luigi.jumpCount = 10
+            luigi.isJump = False
+        if hittest2 == 15:
+            luigi.y = 570-luigi.height
+            luigi.jumpCount = 10
+            luigi.isJump = False
+        if hittest2 == 16:
+            luigi.y = 216-luigi.height
+            luigi.jumpCount = 10
+            luigi.isJump = False
+        if ceilingtest12 == True:
+            luigi.y = 82+22
+            luigi.jumpCount = -5
+        if ceilingtest22 == True:
+            luigi.y = 439+16
+            luigi.jumpCount = -5
+        if ceilingtest32 == True:
+            luigi.y = 87+32
+            luigi.jumpCount = -3
+        if ceilingtest42 == True:
+            luigi.y = 424+16
+            luigi.jumpCount = -5
+        if trampcheck32 == True:
+            if keys[pygame.K_UP]:
+                tramp.play()
+                score += 50
+                luigi.jumpCount = 14
+            else:
+                luigi.y = (510 - luigi.height)
+                luigi.jumpCount = 14
+                luigi.isJump = False
+        if trampcheck22 == True:
+            if keys[pygame.K_UP]:
+                tramp.play()
+                score += 50
+                luigi.jumpCount = 14
+            else:
+                luigi.y = (350 - luigi.height)
+                luigi.jumpCount = 14
+                luigi.isJump = False
+        if trampcheck12 == True:
+            if keys[pygame.K_UP]:
+                tramp.play()
+                score += 50
+                luigi.jumpCount = 13
+            else:
+                luigi.y = (660 - luigi.height)
+                luigi.jumpCount = 13
+                luigi.isJump = False
+        if grndtst2 == True:
+            luigi.y = 687-luigi.height
+            luigi.jumpCount = 10
+            luigi.isJump = False
         #p2 of frame limiter
         clock.tick(30)
         timetocomplete += 1
@@ -2625,7 +2748,7 @@ def game_lvl4():
             -----------------"""
         if luigi2 == True:
             #key to go left
-            if keys[pygame.K_LEFT] and luigi.x > luigi.vel and not(wall_left):
+            if keys[pygame.K_LEFT] and luigi.x > luigi.vel and not(wall_left2):
                 luigi.idle_type = False
                 #if holding sprint button
                 if keys[pygame.K_LSHIFT]:
@@ -2650,7 +2773,7 @@ def game_lvl4():
                     luigi.left = True
                     luigi.right = False
             #key to go right
-            elif keys[pygame.K_RIGHT] and luigi.x < 1280 - luigi.vel - luigi.width and not(wall_right):
+            elif keys[pygame.K_RIGHT] and luigi.x < 1280 - luigi.vel - luigi.width and not(wall_right2):
                 luigi.idle_type = True
                 #if wanting to sprint
                 if keys[pygame.K_LSHIFT]:
@@ -2755,14 +2878,13 @@ def score_tally():
     pygame.display.flip()
     qwerty = True
     print(str(timedelta(seconds=timetocomplete2)))
-    with open('scoredata.dataconfig','r') as wrote:
-        reader =csv.reader(wrote, delimiter=',')
-        with open('scoredata.dataconfig','w+') as grope:  
-            writer = csv.writer(grope,delimiter=',')
-            for row in reader:
-                print(reader)
+    #with open('scoredata.dataconfig','r') as wrote:
+        #reader =csv.reader(wrote, delimiter=',')
+        #with open('scoredata.dataconfig','w+') as grope:  
+            #writer = csv.writer(grope,delimiter=',')
+            #for row in reader:
+                #print(reader)
                 #writer.writerow([int(highscore)])
-
     while qwerty:
         clock.tick(27)
         for event in pygame.event.get():
