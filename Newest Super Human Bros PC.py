@@ -1,38 +1,60 @@
-#import items
+"""
+coin is yellow collectible
+oneup is the life mushroom
+star is the end of level objective
+"""
+#import libraries that I want to use
 import pygame, sys, time, os, random, csv
 from datetime import timedelta
-#init it so it works
+from pygame.locals import *
+#initilise pygame functions
 pygame.init()
+#i thought this would help with the pitch issues
 pygame.mixer.init(48000, -16, 2, 1024)
 
 #make window
 X = 1280
 Y = 720
-win = pygame.display.set_mode((X,Y))
-#icon jah
+win = pygame.display.set_mode((X,Y),RESIZABLE)
+
+#icon
 icon = pygame.image.load('pictures/icon.png')
+#make icon the icon
 pygame.display.set_icon(icon)
+
 #name it
 pygame.display.set_caption("Newest Super Human Bros PC")
 
-#loading beacuse it takes a while for those lists down there
+#loading beacuse it takes a while for those lists down there ˅
 loadimg = pygame.image.load('pictures/loading.png')
+#draw it to the screen
 win.blit(loadimg, (0,0))
+#update the screen
 pygame.display.flip()
 
-#sounds
+"""sounds"""
+#jump
 jumpsnd = pygame.mixer.Sound('audio/jump.wav')
-lvlstrt = pygame.mixer.Sound('audio/startlvl.wav')  
+#start
+lvlstrt = pygame.mixer.Sound('audio/startlvl.wav')
+#step
 sta = pygame.mixer.Sound('audio/step1.wav')
+#step2
 stb = pygame.mixer.Sound('audio/step2.wav')
+#coin
 coin_snd = pygame.mixer.Sound('audio/coin.wav')
+#trampoline
 tramp = pygame.mixer.Sound('audio/trampoline.wav')
+#oneup
 oneup_jingle = pygame.mixer.Sound('audio/oneup.wav')
+#star cutscene audio
 star = pygame.mixer.Sound('audio/starget.wav')
+#death sound
 death = pygame.mixer.Sound('audio/death.wav')
+#when the timer reaches 100
 hurryup = pygame.mixer.Sound('audio/hurry up.wav')
 
-#sprites
+"""sprites and images"""
 #walk right list
 walkRight = [pygame.image.load('pictures/R1.png'), pygame.image.load('pictures/R2.png'), pygame.image.load('pictures/R3.png'), pygame.image.load('pictures/R4.png'), pygame.image.load('pictures/R5.png'), pygame.image.load('pictures/R6.png'), pygame.image.load('pictures/R7.png'), pygame.image.load('pictures/R8.png'), pygame.image.load('pictures/R9.png')]
 #walk left list
@@ -71,31 +93,53 @@ cutscenetest = pygame.image.load('test/Kattoshintesuto.png')
 tokei = pygame.image.load('pictures/clock.png')
 #cutscene
 cutscene_img = [pygame.image.load('animation/frame1.png'), pygame.image.load('animation/frame2.png'), pygame.image.load('animation/frame3.png'), pygame.image.load('animation/frame4.png'), pygame.image.load('animation/frame5.png'), pygame.image.load('animation/frame6.png'), pygame.image.load('animation/frame7.png'), pygame.image.load('animation/frame8.png'), pygame.image.load('animation/frame9.png'), pygame.image.load('animation/frame10.png'), pygame.image.load('animation/frame11.png'), pygame.image.load('animation/frame12.png'), pygame.image.load('animation/frame13.png'), pygame.image.load('animation/frame14.png'), pygame.image.load('animation/frame15.png'), pygame.image.load('animation/frame16.png'), pygame.image.load('animation/frame17.png'), pygame.image.load('animation/frame18.png'), pygame.image.load('animation/frame19.png'), pygame.image.load('animation/frame20.png'), pygame.image.load('animation/frame21.png'), pygame.image.load('animation/frame22.png'), pygame.image.load('animation/frame23.png'), pygame.image.load('animation/frame24.png'), pygame.image.load('animation/frame25.png'), pygame.image.load('animation/frame26.png'), pygame.image.load('animation/frame27.png'), pygame.image.load('animation/frame28.png'), pygame.image.load('animation/frame29.png'), pygame.image.load('animation/frame30.png'), pygame.image.load('animation/frame31.png'), pygame.image.load('animation/frame32.png'), pygame.image.load('animation/frame33.png'), pygame.image.load('animation/frame34.png'), pygame.image.load('animation/frame35.png'), pygame.image.load('animation/frame36.png'), pygame.image.load('animation/frame37.png'), pygame.image.load('animation/frame38.png'), pygame.image.load('animation/frame39.png'), pygame.image.load('animation/frame40.png'), pygame.image.load('animation/frame41.png'), pygame.image.load('animation/frame42.png'), pygame.image.load('animation/frame43.png'), pygame.image.load('animation/frame44.png'), pygame.image.load('animation/frame45.png'), pygame.image.load('animation/frame46.png'), pygame.image.load('animation/frame47.png'), pygame.image.load('animation/frame48.png'), pygame.image.load('animation/frame49.png'), pygame.image.load('animation/frame50.png'), pygame.image.load('animation/frame51.png'), pygame.image.load('animation/frame52.png'), pygame.image.load('animation/frame53.png'), pygame.image.load('animation/frame54.png'), pygame.image.load('animation/frame55.png'), pygame.image.load('animation/frame56.png'), pygame.image.load('animation/frame57.png'), pygame.image.load('animation/frame58.png'), pygame.image.load('animation/frame59.png'), pygame.image.load('animation/frame60.png'), pygame.image.load('animation/frame61.png'), pygame.image.load('animation/frame62.png'), pygame.image.load('animation/frame63.png')]
-#secret
+#the first level transparent section
 alphatesta = pygame.image.load('test/alpha.png')
+#same thing but without a transparent background (this is because i find it easier than making it transparent in pygame
 alphatestn = pygame.image.load('test/tile.png')
+#the overlay for background on the 2nd level (blocks etc)
 bg2olv = pygame.image.load('pictures/bglvl2overlay-min.png')
+#ditto for level 3
 bg3olv = pygame.image.load('pictures/bglvl3overlay-min.png')
+#the background for level 2
 bg2 = pygame.image.load('pictures/bglvl2-min.png')
+#the overlay for level 1
 bg1olv = pygame.image.load('pictures/bgoverlay-min.png')
+#the overlay for level 4
 bg4olv = pygame.image.load('pictures/bglvl4overlay-min.png')
+#the transparent section in the fourth level (not transparent)
 secret3 = pygame.image.load('pictures/hidden2.png')
+#ditto (transparent)
 secret3a = pygame.image.load('pictures/hidden2 alpha.png')
+#ditto (non)
 secret4 = pygame.image.load('pictures/hidden3.png')
+#ditto (transparent)
 secret4a = pygame.image.load('pictures/hidden3 alpha.png')
 
-#make images scale correctly (resizing lol graphics.py cant do that)
+"""image scaling"""
+#the tittle screen logo
 logo_scaled = pygame.transform.scale(logo, (680, 225))
+#the back button
 back_scaled = pygame.transform.scale(back, (50,50))
+#the coin in levels
 coin_img = pygame.transform.scale(coin1, (30, 32))
+#coin in hud
 coin_hud = pygame.transform.scale(coin1, (32, 32))
+#trampoline
 tramp_img = pygame.transform.scale(tramp_omg, (32, 30))
+#star in levels (objective)
 star_ig = pygame.transform.scale(star1, (32, 32))
+#life mushroom
 oneup = pygame.transform.scale(mushy, (32,32))
+#timer icon
 clockimg = pygame.transform.scale(tokei, (32,32))
+#transparent object in level 1
 alphatest = pygame.transform.scale(alphatesta, (107,32))
+#this is a shorer version
 alphatest43 = pygame.transform.scale(alphatesta, (75,32))
+#ditto but not transparent
 alphatestnon = pygame.transform.scale(alphatestn, (107, 32))
+#ditto
 alphatestnon43 = pygame.transform.scale(alphatestn, (75, 32))
 
 #for fonts
@@ -104,10 +148,10 @@ font = pygame.font.Font(None, 30)
 #for frame capping
 clock = pygame.time.Clock()
 
-#testing
+#fps testing
 fps = clock.get_fps()
 
-#colours
+"""colours"""
 white = (255, 255, 255) 
 green = (0, 200, 0) 
 blue = (0, 160, 220)
@@ -121,7 +165,7 @@ purple = (255,0,255)
 #multiplayer
 luigi2 = False
 
-#variables
+#variables and settings
 coin1_draw = True
 coin2_draw = True
 coin3_draw = True
@@ -139,6 +183,25 @@ hudclock = 200
 nextlvl = 1
 score = 00000000
 timetocomplete = 0
+font = 'fonts/SuperMario256.ttf'
+sprint_by_default = False
+frame_rate = 30
+music_smg = False
+
+"""konami code"""
+up1 = False
+up2 = False
+down1 = False
+down2 = False
+left1 = False
+right1 = False
+left2 = False
+right2 = False
+b1 = False
+a1 = False
+start = False
+konami = [False, False, False, False, False, False, False, False, False, False, False]
+
 pygame.display.set_icon(icon)
 
 #game save testing
@@ -198,6 +261,7 @@ class player(object):
             #else if it is false then face left
             elif self.idle_type == False and self.jumpCount <= -1:
                 win.blit(fallimgl, (self.x, self.y))
+            #jump facing left w/o the two elifs below the character will not be drawn at all
             elif self.idle_type == False and self.jumpCount >= 0:
                 win.blit(jumpl, (self.x, self.y))
             else:
@@ -240,12 +304,14 @@ class player(object):
         else:
             #draw facing right
             win.blit(char, (self.x, self.y))
+#this is the star cutscene when you complete level objective
 def cutscene():
     global nextlvl
     star1_get = False
     star1_get_pause = False
     nextlvl += 1
-    for i in range(1, 63):
+    #this changes the frame by itteration in the for loop and list number
+    for i in range(0, 63):
         win.blit(cutscene_img[i], (0,0))
         pygame.display.flip()
         time.sleep(0.045)
@@ -253,7 +319,6 @@ def cutscene():
     fade_out(1280,720)
     if nextlvl == 1:
         game_loop_1p()
-        #score_tally()
     if nextlvl == 2:
         game_lvl2()
     if nextlvl == 3:
@@ -262,7 +327,9 @@ def cutscene():
         game_lvl4()
     if nextlvl == 5:
         score_tally()
-#draw fuction
+
+"""drawing functions"""
+#draw fuction level 1
 def redrawGameWindow():
     timetocomplete2 = timetocomplete/30
     time_yes = str(timedelta(seconds=timetocomplete2))
@@ -275,9 +342,24 @@ def redrawGameWindow():
     win.blit(bg, (0,0))
     win.blit(grnd, (0, 659))
     win.blit(tramp_img, (150,655))
-    win.blit(bg1olv, (0,0))
+    if (mario.x+mario.width) >= 400 and (mario.x+mario.width) <=688 and mario.y >= 655-16:
+        secret = True
+    else:
+        secret = False
+    if luigi2 == True:
+        if (luigi.x+luigi.width) >= 400 and (luigi.x+luigi.width) <=688 and luigi.y >= 655-16:
+            secret = True
     if oneup_draw2 == True:
         win.blit(oneup, (528, 655))
+    if secret == True:
+        win.blit(alphatest, (400, 655))
+        win.blit(alphatest, (506, 655))
+        win.blit(alphatest43, (613, 655))
+    if secret == False:
+        win.blit(alphatestnon, (400, 655))
+        win.blit(alphatestnon, (506, 655))
+        win.blit(alphatestnon43, (613, 655))
+    win.blit(bg1olv, (0,0))
     if oneup_draw1 == True:
         win.blit(oneup, (225, 153))
     #uwu for some depth do drawing before this comment for behind mario, and do drawing after for infront of mario
@@ -292,55 +374,40 @@ def redrawGameWindow():
     else:
         #draw only one character
         mario.draw(win)
-    if (mario.x+mario.width) >= 400 and (mario.x+mario.width) <=688 and mario.y >= 655-16:
-        secret = True
-    else:
-        secret = False
     if coin1_draw == True:
         win.blit(coin_img, (175,153))
     if coin2_draw == True:
         win.blit(coin_img, (275,153))
-    if secret == True:
-        win.blit(alphatest, (400, 655))
-        win.blit(alphatest, (506, 655))
-        win.blit(alphatest43, (613, 655))
-    if secret == False:
-        win.blit(alphatestnon, (400, 655))
-        win.blit(alphatestnon, (506, 655))
-        win.blit(alphatestnon43, (613, 655))
     win.blit(star_ig, (1150, 525))
     win.blit(oneup, (10, 52))
     win.blit(coin_hud, (10,10))
     win.blit(star_ig, (1167, 10))
     win.blit(clockimg, (1157, 52))
-    smallText = pygame.font.Font("fonts/Mario64.ttf",40)
-    textSurf, textRect = text_objects(" x  " + str(coin_counter), smallText)
-    textRect.center = (81, (10+(24/2)) )
+    smallText = pygame.font.Font("fonts/SuperMario256.ttf",40)
+    textSurf, textRect = text_objects(" x " + str(coin_counter), smallText)
+    textRect.center = (81, (15+(24/2)) )
     win.blit(textSurf, textRect)
-    textSurf, textRect = text_objects(" x  " + str(oneup_cntr), smallText)
-    textRect.center = (81, (52+(24/2)) )
+    textSurf, textRect = text_objects(" x " + str(oneup_cntr), smallText)
+    textRect.center = (81, (57+(24/2)) )
     win.blit(textSurf, textRect)
-    textSurf, textRect = text_objects(" x  " + str(star_cntr), smallText)
-    textRect.center = (1238, (10+(24/2)) )
+    textSurf, textRect = text_objects(" x " + str(star_cntr), smallText)
+    textRect.center = (1238, (15+(24/2)) )
     win.blit(textSurf, textRect)
     textSurf, textRect = text_objects(str(hudclock), smallText)
-    textRect.center = (1238, (52+(24/2)) )
+    textRect.center = (1238, (57+(24/2)) )
     win.blit(textSurf, textRect)
-    textSurf, textRect = text_objects("Score  " + str(score), smallText)
+    textSurf, textRect = text_objects("Score " + str(score), smallText)
     textRect.center = (860, 43)
     win.blit(textSurf, textRect)
-    textSurf, textRect = text_objects("Level  " + str(nextlvl), smallText)
+    textSurf, textRect = text_objects("Level " + str(nextlvl), smallText)
     textRect.center = (420, 43)
     win.blit(textSurf, textRect)
-    font = pygame.font.Font("fonts/Mario64.ttf",40)
-    text = font.render("Time:  " + time_yes,True,black)
-    win.blit(text, (975,82))
-    #textSurf, textRect = text_objects("Time:  " + time_yes, smallText)
-    #textRect.center = (1280//2, 360)
-    #win.blit(textSurf, textRect)
-    #lol pretty obvious what this is (update display whaaaaa omg so smart)
-    pygame.display.update()
+    font = pygame.font.Font("fonts/SuperMario256.ttf",40)
+    text = font.render("Time: " + time_yes,True,black)
+    win.blit(text, (935,90))
+    pygame.display.flip()
 
+#ditto level 2
 def redrawGameWindow2():
     timetocomplete2 = timetocomplete/30
     time_yes = str(timedelta(seconds=timetocomplete2))
@@ -363,31 +430,31 @@ def redrawGameWindow2():
     win.blit(coin_hud, (10,10))
     win.blit(star_ig, (1167, 10))
     win.blit(clockimg, (1157, 52))
-    smallText = pygame.font.Font("fonts/Mario64.ttf",40)
-    textSurf, textRect = text_objects(" x  " + str(coin_counter), smallText)
-    textRect.center = (81, (10+(24/2)) )
+    smallText = pygame.font.Font("fonts/SuperMario256.ttf",40)
+    textSurf, textRect = text_objects(" x " + str(coin_counter), smallText)
+    textRect.center = (81, (15+(24/2)) )
     win.blit(textSurf, textRect)
-    smallText = pygame.font.Font("fonts/Mario64.ttf",40)
-    textSurf, textRect = text_objects(" x  " + str(oneup_cntr), smallText)
-    textRect.center = (81, (52+(24/2)) )
+    textSurf, textRect = text_objects(" x " + str(oneup_cntr), smallText)
+    textRect.center = (81, (57+(24/2)) )
     win.blit(textSurf, textRect)
-    textSurf, textRect = text_objects(" x  " + str(star_cntr), smallText)
-    textRect.center = (1238, (10+(24/2)) )
+    textSurf, textRect = text_objects(" x " + str(star_cntr), smallText)
+    textRect.center = (1238, (15+(24/2)) )
     win.blit(textSurf, textRect)
     textSurf, textRect = text_objects(str(hudclock), smallText)
-    textRect.center = (1238, (52+(24/2)) )
+    textRect.center = (1238, (57+(24/2)) )
     win.blit(textSurf, textRect)
-    textSurf, textRect = text_objects("Score  " + str(score), smallText)
+    textSurf, textRect = text_objects("Score " + str(score), smallText)
     textRect.center = (860, 43)
     win.blit(textSurf, textRect)
-    textSurf, textRect = text_objects("Level  " + str(nextlvl), smallText)
+    textSurf, textRect = text_objects("Level " + str(nextlvl), smallText)
     textRect.center = (420, 43)
-    font = pygame.font.Font("fonts/Mario64.ttf",40)
-    text = font.render("Time:  " + time_yes,True,black)
-    win.blit(text, (975,82))
     win.blit(textSurf, textRect)
-    pygame.display.update()
+    font = pygame.font.Font("fonts/SuperMario256.ttf",40)
+    text = font.render("Time: " + time_yes,True,black)
+    win.blit(text, (935,90))
+    pygame.display.flip()
 
+#ditto level 3
 def redrawGameWindow3():
     timetocomplete2 = timetocomplete/30
     time_yes = str(timedelta(seconds=timetocomplete2))
@@ -414,31 +481,31 @@ def redrawGameWindow3():
     win.blit(coin_hud, (10,10))
     win.blit(star_ig, (1167, 10))
     win.blit(clockimg, (1157, 52))
-    smallText = pygame.font.Font("fonts/Mario64.ttf",40)
-    textSurf, textRect = text_objects(" x  " + str(coin_counter), smallText)
-    textRect.center = (81, (10+(24/2)) )
+    smallText = pygame.font.Font("fonts/SuperMario256.ttf",40)
+    textSurf, textRect = text_objects(" x " + str(coin_counter), smallText)
+    textRect.center = (81, (15+(24/2)) )
     win.blit(textSurf, textRect)
-    smallText = pygame.font.Font("fonts/Mario64.ttf",40)
-    textSurf, textRect = text_objects(" x  " + str(oneup_cntr), smallText)
-    textRect.center = (81, (52+(24/2)) )
+    textSurf, textRect = text_objects(" x " + str(oneup_cntr), smallText)
+    textRect.center = (81, (57+(24/2)) )
     win.blit(textSurf, textRect)
-    textSurf, textRect = text_objects(" x  " + str(star_cntr), smallText)
-    textRect.center = (1238, (10+(24/2)) )
+    textSurf, textRect = text_objects(" x " + str(star_cntr), smallText)
+    textRect.center = (1238, (15+(24/2)) )
     win.blit(textSurf, textRect)
     textSurf, textRect = text_objects(str(hudclock), smallText)
-    textRect.center = (1238, (52+(24/2)) )
+    textRect.center = (1238, (57+(24/2)) )
     win.blit(textSurf, textRect)
-    textSurf, textRect = text_objects("Score  " + str(score), smallText)
+    textSurf, textRect = text_objects("Score " + str(score), smallText)
     textRect.center = (860, 43)
     win.blit(textSurf, textRect)
-    textSurf, textRect = text_objects("Level  " + str(nextlvl), smallText)
+    textSurf, textRect = text_objects("Level " + str(nextlvl), smallText)
     textRect.center = (420, 43)
     win.blit(textSurf, textRect)
-    font = pygame.font.Font("fonts/Mario64.ttf",40)
-    text = font.render("Time:  " + time_yes,True,black)
-    win.blit(text, (975,82))
-    pygame.display.update()
+    font = pygame.font.Font("fonts/SuperMario256.ttf",40)
+    text = font.render("Time: " + time_yes,True,black)
+    win.blit(text, (935,90))
+    pygame.display.flip()
 
+#ditto level 4
 def redrawGameWindow4():
     timetocomplete2 = timetocomplete/30
     time_yes = str(timedelta(seconds=timetocomplete2))
@@ -472,29 +539,29 @@ def redrawGameWindow4():
     win.blit(coin_hud, (10,10))
     win.blit(star_ig, (1117, 10))
     win.blit(clockimg, (1117, 52))
-    smallText = pygame.font.Font("fonts/Mario64.ttf",40)
-    textSurf, textRect = text_objects(" x  " + str(coin_counter), smallText)
-    textRect.center = (81, (10+(24/2)) )
+    smallText = pygame.font.Font("fonts/SuperMario256.ttf",40)
+    textSurf, textRect = text_objects(" x " + str(coin_counter), smallText)
+    textRect.center = (81, (15+(24/2)) )
     win.blit(textSurf, textRect)
-    textSurf, textRect = text_objects(" x  " + str(oneup_cntr), smallText)
-    textRect.center = (81, (52+(24/2)) )
+    textSurf, textRect = text_objects(" x " + str(oneup_cntr), smallText)
+    textRect.center = (81, (57+(24/2)) )
     win.blit(textSurf, textRect)
-    textSurf, textRect = text_objects(" x  " + str(star_cntr), smallText)
-    textRect.center = (1188, (10+(24/2)) )
+    textSurf, textRect = text_objects(" x " + str(star_cntr), smallText)
+    textRect.center = (1198, (15+(24/2)) )
     win.blit(textSurf, textRect)
     textSurf, textRect = text_objects(str(hudclock), smallText)
-    textRect.center = (1188, (52+(24/2)) )
+    textRect.center = (1198, (57+(24/2)) )
     win.blit(textSurf, textRect)
-    textSurf, textRect = text_objects("Score  " + str(score), smallText)
+    textSurf, textRect = text_objects("Score " + str(score), smallText)
     textRect.center = (860, 43)
     win.blit(textSurf, textRect)
-    textSurf, textRect = text_objects("Level  " + str(nextlvl), smallText)
+    textSurf, textRect = text_objects("Level " + str(nextlvl), smallText)
     textRect.center = (420, 43)
     win.blit(textSurf, textRect)
-    font = pygame.font.Font("fonts/Mario64.ttf",40)
-    text = font.render("Time:  " + time_yes,True,black)
-    win.blit(text, (975,82))
-    pygame.display.update()
+    font = pygame.font.Font("fonts/SuperMario256.ttf",40)
+    text = font.render("Time: " + time_yes,True,black)
+    win.blit(text, (935,90))
+    pygame.display.flip()
 
 #define what mario and luigi is when we call the class
 #variable name = class name(x, y, width, height)
@@ -536,6 +603,23 @@ def fade_white(width, height):
 def name():
     #make cursor invisible
     pygame.mouse.set_visible(False)
+    coin1_draw = True
+    coin2_draw = True
+    coin3_draw = True
+    coin_counter = 0
+    oneup_cntr = 5
+    oneup_draw1 = True
+    star_cntr = 0
+    star1_get = False
+    star1_get_pause = False
+    secret = False
+    secret3_draw = False
+    secret4_draw = False
+    oneup_draw2 = True
+    hudclock = 200
+    nextlvl = 1
+    score = 00000000
+    timetocomplete = 0
     #again cache printing
     pygame.display.set_icon(icon)
     gcache = globals()
@@ -560,7 +644,7 @@ def name():
     #draw it
     win.blit(TextSurf, TextRect)
     #update the screen
-    pygame.display.update()
+    pygame.display.flip()
     fade_white(1280,720)
     win.fill(white)
     win.blit(TextSurf, TextRect)
@@ -568,14 +652,14 @@ def name():
     #print cache again
     print('Global cache: ' + cache)
     #waits one second before moving on
-    pygame.time.wait(1000)
+    time.sleep(1)
     #calls our next function
     game_intro()
 
 #define the fuction that is called for the menu
 def game_intro():
     #for when going back into the fuction, avoid unintended button presses
-    pygame.time.wait(200)
+    time.sleep(0.2)
     pygame.mouse.set_visible(True)
     #just to see if this was called or not
     print('game_intro()')
@@ -642,7 +726,7 @@ def game_intro():
                 #call fade function
                 fade_out(1280,720)
                 #wait a bit
-                pygame.time.wait(100)
+                time.sleep(0.1)
                 #call the one player function
                 #game_loop_1p()
                 game_loop_1p()
@@ -679,7 +763,7 @@ def game_intro():
                 #call our fade out function
                 fade_out(1280,720)
                 #call game 2p function
-                game_loop_2p()
+                game_loop_1p()
         #else if over nut button
         elif 50+250 > mouse[0] > 50 and 610+60 > mouse[1] > 610:
             #dito
@@ -691,7 +775,7 @@ def game_intro():
                 nut = pygame.mixer.Sound('audio/soundnut.wav')
                 print('nut')
                 nut.play()
-                pygame.time.wait(500)
+                time.sleep(0.5)
                 pygame.mixer.music.play(-1)
         #else if over settings button
         elif 50+250 > mouse[0] > 50 and 510+60 > mouse[1] > 510:
@@ -713,8 +797,8 @@ def game_intro():
         #dito
         pygame.draw.rect(win, blue,(50,510,250,60))
         #button texts
-        smallText = pygame.font.Font("fonts/Mario64.ttf",40)
-        textSurf, textRect = text_objects("**   Start   **", smallText)
+        smallText = pygame.font.Font("fonts/SuperMario256.ttf",40)
+        textSurf, textRect = text_objects("Start", smallText)
         textRect.center = ( (450+(350/2)), (240+(80/2)) )
         win.blit(textSurf, textRect)
         #dito
@@ -722,6 +806,7 @@ def game_intro():
         textRect.center = ( (450+(350/2)), (480+(80/2)) )
         win.blit(textSurf, textRect)
         #dito
+        smallText = pygame.font.Font("fonts/SuperMario256.ttf",30)
         textSurf, textRect = text_objects("Instructions", smallText)
         textRect.center = ( (980+(250/2)), (610+(60/2)) )
         win.blit(textSurf, textRect)
@@ -738,7 +823,7 @@ def game_intro():
         textRect.center = ( (50+(250/2)), (510+(60/2)) )
         win.blit(textSurf, textRect)
         #update screen
-        pygame.display.update()
+        pygame.display.flip()
         #frame rate
         clock.tick(27)
 #quit function
@@ -749,7 +834,7 @@ def quit_a():
     print('Global cache: ' + cache)
     print('quit')
     yes = True
-    pygame.time.wait(200)
+    time.sleep(0.2)
     while yes:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -783,22 +868,29 @@ def quit_a():
             pygame.draw.rect(win, green,(450,240,350,80))
         win.blit(back_scaled, (5,((Y/8)-80)))
         pygame.draw.rect(win, red,(450,480,350,80))
-        smallText = pygame.font.Font("fonts/Mario64.ttf",40)
+        smallText = pygame.font.Font("fonts/SuperMario256.ttf",40)
         textSurf, textRect = text_objects("Play", smallText)
         textRect.center = ( (450+(350/2)), (240+(80/2)) )
         win.blit(textSurf, textRect)
         textSurf, textRect = text_objects("Quit", smallText)
         textRect.center = ( (450+(350/2)), (480+(80/2)) )
         win.blit(textSurf, textRect)
-        pygame.display.update()
+        pygame.display.flip()
         clock.tick(27)
 def settings():
+    """
+    SETTINGS TO ADD:
+    Sprint by default
+    Music / Sound effect volume
+    Music type
+    Frame rate cap
+    """
     print('settings')
     gusty_garden = True
     pygame.mouse.set_visible(True)
     #this timer is important so as to allow the user to let go of the mouse button before bringing up this screen
     #otherwise it will hit the button under the cursor if the button is still down
-    pygame.time.wait(200)
+    time.sleep(0.2)
     fade_white(1280,720)
     while gusty_garden:
         mouse = pygame.mouse.get_pos()
@@ -821,7 +913,7 @@ def settings():
         if 5+50 >mouse[0] > 5 and 10+50 > mouse[1] > 10 and click[0]:
             game_intro()
         win.blit(back_scaled, (5,((Y/8)-80)))
-        pygame.display.update()
+        pygame.display.flip()
         clock.tick(27)
         
 def instructions():
@@ -834,7 +926,7 @@ def instructions():
     hmmm = True
     #this timer is important so as to allow the user to let go of the mouse button before bringing up this screen
     #otherwise it will hit the button under the cursor if the button is still down
-    pygame.time.wait(200)
+    time.sleep(0.2)
     fade_white(1280,720)
     while hmmm:
         for event in pygame.event.get():
@@ -858,8 +950,8 @@ def instructions():
         #get where they have or will click
         click = pygame.mouse.get_pressed()
         #smaller text
-        largeText = pygame.font.Font('fonts/Mario64.ttf',40)
-        TextSurf, TextRect = text_objects("In this game you control a character on their quest to save a princess", largeText)
+        largeText = pygame.font.Font('fonts/SuperMario256.ttf',30)
+        TextSurf, TextRect = text_objects("The aim of the game is to get the star at the end of each level.", largeText)
         TextRect.center = ((X/2),(Y/5))
         #blit is pygame drawing fuction
         win.blit(TextSurf, TextRect)
@@ -890,21 +982,21 @@ def instructions():
                 luigi2 = True
                 lvlstrt.play()
                 fade_out(1280,720)
-                game_loop_2p()
+                game_loop_1p()
         else:
             pygame.draw.rect(win, blue,(980,610,250,60))
             pygame.draw.rect(win, blue,(980,510,250,60))
         pygame.draw.rect(win, blue,(980,510,250,60))
         pygame.draw.rect(win, blue,(980,610,250,60))
         #buttons lables
-        smallText = pygame.font.Font("fonts/Mario64.ttf",40)
+        smallText = pygame.font.Font("fonts/SuperMario256.ttf",40)
         textSurf, textRect = text_objects("play", smallText)
         textRect.center = ( (980+(250/2)), (610+(60/2)) )
         win.blit(textSurf, textRect)
         textSurf, textRect = text_objects("play (2p)", smallText)
         textRect.center = ( (980+(250/2)), (510+(60/2)) )
         win.blit(textSurf, textRect)
-        pygame.display.update()
+        pygame.display.flip()
         clock.tick(27)
 #main game
 def game_loop_1p():
@@ -939,12 +1031,20 @@ def game_loop_1p():
     music = pygame.mixer.music.load('audio/music.mp3')
     pygame.mixer.music.play(-1)
     pygame.mixer.music.set_volume(0.5)
+    mario.x = 55
+    mario.y = 655
+    if luigi2 == True:
+        luigi.x = 97
+        luigi.y = 655
     redrawGameWindow()
     while jah:
         if mario.jumpCount <= -7:
             mario.jumpCount = -7
+        if luigi.jumpCount <= -7:
+            luigi.jumpCount = -7
         #hitboxes
         hitbox = pygame.Rect(mario.x, mario.y, mario.width, mario.height)
+        luigihit = pygame.Rect(luigi.x, luigi.y, luigi.width, luigi.height)
         coin1 = pygame.Rect(175, 153, 32, 32)
         coin2 = pygame.Rect(275, 153, 32, 32)
         trampoline = pygame.Rect(150, 635, 32, 64)
@@ -952,9 +1052,12 @@ def game_loop_1p():
         test = pygame.Rect.colliderect(hitbox, coin1)
         oneuptest2 = pygame.Rect(528, 655, 32, 32)
         test1 = pygame.Rect.colliderect(hitbox, coin2)
+        test2 = pygame.Rect.colliderect(luigihit, coin1)
+        test12 = pygame.Rect.colliderect(luigihit, coin2)
         wallonright2 = pygame.Rect(225, 247, 16, 440)
         wallonleft2 = pygame.Rect(241, 247, 16, 440)
         trampolinetst = pygame.Rect.colliderect(hitbox, trampoline)
+        trampolinetst2 = pygame.Rect.colliderect(luigihit, trampoline)
         floor = pygame.Rect(0, 687, 1280, 64)
         grnd_227 = pygame.Rect(225, 207, 32, 128)
         block = pygame.Rect(853, 654, 26, 32)
@@ -975,8 +1078,11 @@ def game_loop_1p():
         startst = pygame.Rect(1150, 525, 32, 32)
         floortest = pygame.Rect.colliderect(hitbox, floor)
         landtest = pygame.Rect.colliderect(hitbox, block)
+        floortest2 = pygame.Rect.colliderect(luigihit, floor)
+        landtest2 = pygame.Rect.colliderect(luigihit, block)
         hitboxes = [wallonleft1, wallonleft2, wallonright1, wallonright2, grnd_227, sticky, oneuptest, startst, step1, step2, step3, step4, step5, step6, step7, step8, podium655, podium667, podium639, oneuptest2]
         hittest = pygame.Rect.collidelist(hitbox, hitboxes)
+        hittest2 = pygame.Rect.collidelist(luigihit, hitboxes)
         if hittest == -1 and landtest == False and floortest == False and trampolinetst == False and not(mario.isJump):
             mario.y -= (mario.fall * abs(mario.fall)) // 2
             mario.fall -= 0.75
@@ -999,8 +1105,12 @@ def game_loop_1p():
             mario.y = (207 - mario.height)
             mario.jumpCount = 10
             mario.isJump = False
+            wall_left = False
+            wall_right = False
         if hittest == 5:
             mario.jumpCount = -2
+            wall_left = False
+            wall_right = False
         if hittest == 6 and oneup_draw1 == True:
             oneup_draw1 = False
             oneup_cntr += 1
@@ -1073,6 +1183,110 @@ def game_loop_1p():
             mario.jumpCount = 10
             mario.isJump = False
         if hittest == 19 and oneup_draw2 == True:
+            oneup_draw2 = False
+            oneup_cntr += 1
+            score += 500
+            oneup_jingle.play()
+        if hittest2 == -1 and landtest2 == False and floortest2 == False and trampolinetst2 == False and not(luigi.isJump):
+            luigi.y -= (luigi.fall * abs(luigi.fall)) // 2
+            luigi.fall -= 0.75
+            if luigi.fall <= -3:
+                luigi.fall == 0
+                luigi.isJump = True
+                luigi.jumpCount = -3
+        else:
+            luigi.fall = 0
+        if hittest2 == -1:
+            wall_left2 = False
+            wall_right2 = False
+        if hittest2 == 0 or hittest2 == 1:
+            wall_left2 = True
+            wall_right2 = False
+        if hittest2 == 2 or hittest2 == 3:
+            wall_right2 = True
+            wall_left2 = False
+        if hittest2 == 4:
+            luigi.y = (207 - luigi.height)
+            luigi.jumpCount = 10
+            luigi.isJump = False
+            wall_left2 = False
+            wall_right2 = False
+        if hittest2 == 5:
+            luigi.jumpCount = -2
+            wall_left2 = False
+            wall_right2 = False
+        if hittest2 == 6 and oneup_draw1 == True:
+            oneup_draw1 = False
+            oneup_cntr += 1
+            score += 500
+            oneup_jingle.play()
+        if hittest2 == 7 and star1_get == False:
+            star1_get = True
+            star1_get_pause = True
+            star_cntr += 1
+            star.play()
+            score += 10000
+            redrawGameWindow()
+            time.sleep(0.5)
+            pygame.mixer.music.stop()
+            cutscene()
+        if hittest2 == 8 or hittest2 == 15 or hittest2 == 16:
+            luigi.y = (655 - luigi.height)
+            luigi.jumpCount = 10
+            luigi.isJump = False
+        if hittest2 == 9 or hittest2 == 14:
+            luigi.y = (623 - luigi.height)
+            luigi.jumpCount = 10
+            luigi.isJump = False
+        if hittest2 == 10 or hittest2 == 13:
+            luigi.y = (591 - luigi.height)
+            luigi.jumpCount = 10
+            luigi.isJump = False
+        if hittest2 == 11 or hittest2 == 12:
+            luigi.y = (559 - luigi.height)
+            luigi.jumpCount = 10
+            luigi.isJump = False
+        if test2 == True and coin1_draw == True:
+            coin1_draw = False
+            coin_counter += 1
+            score += 100
+            coin_snd.play()
+        if test12 == True and coin2_draw == True:
+            coin2_draw = False
+            coin_counter += 1
+            score += 100
+            coin_snd.play()
+        if trampolinetst2 == True:
+            if keys[pygame.K_UP]:
+                tramp.play()
+                luigi.jumpCount = 14
+                score += 50
+            else:
+                luigi.y = (660 - luigi.height)
+                luigi.jumpCount = 14
+                luigi.isJump = False
+        if floortest2 == True:
+            luigi.y = (687 - luigi.height)
+            luigi.jumpCount = 10
+            luigi.isJump = False
+            luigi.fall = 0
+        if landtest2 == True:
+            luigi.y = (654 - luigi.height)
+            luigi.jumpCount = 10
+            luigi.isJump = False
+        if hittest2 == 17:
+            luigi.y = (667 - luigi.height)
+            luigi.jumpCount = 10
+            luigi.isJump = False
+        if hittest2 == 16:
+            luigi.y = (655 - luigi.height)
+            luigi.jumpCount = 10
+            luigi.isJump = False
+        if hittest2 == 18:
+            luigi.y = (639 - luigi.height)
+            luigi.jumpCount = 10
+            luigi.isJump = False
+        if hittest2 == 19 and oneup_draw2 == True:
             oneup_draw2 = False
             oneup_cntr += 1
             score += 500
@@ -1202,6 +1416,93 @@ def game_loop_1p():
                 mario.vel = 5
                 mario.jumpCount = 10
                 mario.isJump = False
+        """ -----------------
+            2nd player time
+            -----------------"""
+        if luigi2 == True:
+            #key to go left
+            if keys[pygame.K_LEFT] and luigi.x > luigi.vel and not(wall_left2):
+                luigi.idle_type = False
+                #if holding sprint button
+                if keys[pygame.K_LSHIFT]:
+                    if not(luigi.isJump):
+                        pass
+                    #double velocity (speed)
+                    luigi.vel = 10
+                    #move -x by the velocity
+                    luigi.x -= luigi.vel
+                    #change these statments for facing direction
+                    luigi.left = True
+                    luigi.right = False
+                #must not be wanting to sprint
+                else:
+                    if not(luigi.isJump):
+                        pass
+                    #normal velocity
+                    luigi.vel = 5
+                    #move -x by velocity
+                    luigi.x -= luigi.vel
+                    #facing directions
+                    luigi.left = True
+                    luigi.right = False
+            #key to go right
+            elif keys[pygame.K_RIGHT] and luigi.x < 1280 - luigi.vel - luigi.width and not(wall_right2):
+                luigi.idle_type = True
+                #if wanting to sprint
+                if keys[pygame.K_LSHIFT]:
+                    if not(luigi.isJump):
+                        pass
+                    #double velocity
+                    luigi.vel = 10
+                    #move +x by velocity
+                    luigi.x += luigi.vel
+                    #facing directions
+                    luigi.left = False
+                    luigi.right = True
+                else:
+                    if not(luigi.isJump):
+                        pass
+                    #normal velocity
+                    luigi.vel = 5
+                    #move +x by velocity
+                    luigi.x += luigi.vel
+                    #facing direction
+                    luigi.left = False
+                    luigi.right = True
+
+            #part of direction facing
+            else:
+                #standing still
+                luigi.left = False
+                luigi.right = False
+                luigi.walkCount = 0
+            #if is jump is false (to prevent jumping in air lol maybe i will allow double jump
+            if not(luigi.isJump):
+                #if spacebar is held (jump button)
+                if keys[pygame.K_UP]:
+                    score += 5
+                    jumpsnd.play()
+                    #is jump is now true (cannot jump anymore. begins jump procedure)
+                    luigi.isJump = True
+                    #dont walk in air and change direction
+                    luigi.left = False
+                    luigi.right = False
+                    #no walk animation in air
+                    luigi.walkCount = 0
+            #arc of falling
+            else:
+                if luigi.jumpCount >= -50:
+                    #quadratics reeeee
+                    #the abs makes the negative positive and the positive positive
+                    #w/o abs, charcater jumps to peak, and then goes up again, instead of down
+                    luigi.y -= (luigi.jumpCount * abs(luigi.jumpCount)) // 2
+                    luigi.jumpCount -= 0.8
+                    luigi.vel = 3
+                else:
+                    #jump has finished - cleanup
+                    luigi.vel = 5
+                    luigi.jumpCount = 10
+                    luigi.isJump = False
         timer += 1
         #redraw game window function to draw other entities that we want to draw
         redrawGameWindow()
@@ -1226,6 +1527,9 @@ def game_lvl2():
     star1_get = False
     mario.x = 55
     mario.y = 328
+    if luigi2 == True:
+        luigi.x = 97
+        luigi.y = 328
     wall_left = False
     wall_right = False
     pygame.mouse.set_visible(False)
@@ -1241,7 +1545,10 @@ def game_lvl2():
     while jah:
         if mario.jumpCount <= -7:
             mario.jumpCount = -7
+        if luigi.jumpCount <= -7:
+            luigi.jumpCount = -7
         hitbox = pygame.Rect(mario.x, mario.y, mario.width, mario.height)
+        luigihit = pygame.Rect(luigi.x, luigi.y, luigi.width, luigi.height)
         startst = pygame.Rect(1150, 260, 32, 32)
         floor1 = pygame.Rect(0, 360, 640, 32)
         floor2 = pygame.Rect(736, 360, 544, 32)
@@ -1249,6 +1556,7 @@ def game_lvl2():
         wallonright = pygame.Rect(733, 370, 16, 350)
         hitboxes = [startst, floor1, floor2, wallonleft, wallonright]
         hittest = pygame.Rect.collidelist(hitbox, hitboxes)
+        hittest2 = pygame.Rect.collidelist(luigihit, hitboxes)
         if hittest == -1 and not(mario.isJump):
             mario.y -= (mario.fall * abs(mario.fall)) // 2
             mario.fall -= 0.75
@@ -1285,6 +1593,39 @@ def game_lvl2():
         if timer == 30:
             timer = 0
             hudclock -= 1
+        if hittest2 == -1 and not(luigi.isJump):
+            luigi.y -= (luigi.fall * abs(luigi.fall)) // 2
+            luigi.fall -= 0.75
+            if luigi.fall <= -3:
+                luigi.fall == 0
+                luigi.isJump = True
+                luigi.jumpCount = -3
+        else:
+            luigi.fall = 0
+        if hittest2 == -1:
+            wall_left2 = False
+            wall_right2 = False
+        if hittest2 == 0 and star1_get == False:
+            star1_get = True
+            star1_get_pause = True
+            star_cntr += 1
+            star.play()
+            score += 10000
+            redrawGameWindow2()
+            time.sleep(0.5)
+            pygame.mixer.music.stop()
+            cutscene()
+            game_lvl3()
+        if hittest2 == 3:
+            wall_left2 = True
+            wall_right2 = False
+        if hittest2 == 4:
+            wall_left2 = False
+            wall_right2 = True
+        if hittest2 == 1 or hittest2 == 2:
+            luigi.y = 360-luigi.height
+            luigi.jumpCount = 10
+            luigi.isJump = False
         if timer == 0 and hudclock == 100:
             pygame.mixer.music.stop()
             hurryup.play()
@@ -1312,6 +1653,14 @@ def game_lvl2():
             mario.x = 55
             wall_left = False
             wall_right = False
+        if luigi.y >= (720-luigi.height):
+            death.play()
+            score -= 100
+            oneup_cntr -= 1
+            luigi.y = 360-mario.height
+            luigi.x = 55
+            wall_left2 = False
+            wall_right2 = False
         #p2 of frame limiter
         clock.tick(30)
         timetocomplete += 1
@@ -1415,6 +1764,93 @@ def game_lvl2():
                 mario.vel = 5
                 mario.jumpCount = 10
                 mario.isJump = False
+        """ -----------------
+            2nd player time
+            -----------------"""
+        if luigi2 == True:
+            #key to go left
+            if keys[pygame.K_LEFT] and luigi.x > luigi.vel and not(wall_left2):
+                luigi.idle_type = False
+                #if holding sprint button
+                if keys[pygame.K_LSHIFT]:
+                    if not(luigi.isJump):
+                        pass
+                    #double velocity (speed)
+                    luigi.vel = 10
+                    #move -x by the velocity
+                    luigi.x -= luigi.vel
+                    #change these statments for facing direction
+                    luigi.left = True
+                    luigi.right = False
+                #must not be wanting to sprint
+                else:
+                    if not(luigi.isJump):
+                        pass
+                    #normal velocity
+                    luigi.vel = 5
+                    #move -x by velocity
+                    luigi.x -= luigi.vel
+                    #facing directions
+                    luigi.left = True
+                    luigi.right = False
+            #key to go right
+            elif keys[pygame.K_RIGHT] and luigi.x < 1280 - luigi.vel - luigi.width and not(wall_right2):
+                luigi.idle_type = True
+                #if wanting to sprint
+                if keys[pygame.K_LSHIFT]:
+                    if not(luigi.isJump):
+                        pass
+                    #double velocity
+                    luigi.vel = 10
+                    #move +x by velocity
+                    luigi.x += luigi.vel
+                    #facing directions
+                    luigi.left = False
+                    luigi.right = True
+                else:
+                    if not(luigi.isJump):
+                        pass
+                    #normal velocity
+                    luigi.vel = 5
+                    #move +x by velocity
+                    luigi.x += luigi.vel
+                    #facing direction
+                    luigi.left = False
+                    luigi.right = True
+
+            #part of direction facing
+            else:
+                #standing still
+                luigi.left = False
+                luigi.right = False
+                luigi.walkCount = 0
+            #if is jump is false (to prevent jumping in air lol maybe i will allow double jump
+            if not(luigi.isJump):
+                #if spacebar is held (jump button)
+                if keys[pygame.K_UP]:
+                    score += 5
+                    jumpsnd.play()
+                    #is jump is now true (cannot jump anymore. begins jump procedure)
+                    luigi.isJump = True
+                    #dont walk in air and change direction
+                    luigi.left = False
+                    luigi.right = False
+                    #no walk animation in air
+                    luigi.walkCount = 0
+            #arc of falling
+            else:
+                if luigi.jumpCount >= -50:
+                    #quadratics reeeee
+                    #the abs makes the negative positive and the positive positive
+                    #w/o abs, charcater jumps to peak, and then goes up again, instead of down
+                    luigi.y -= (luigi.jumpCount * abs(luigi.jumpCount)) // 2
+                    luigi.jumpCount -= 0.8
+                    luigi.vel = 3
+                else:
+                    #jump has finished - cleanup
+                    luigi.vel = 5
+                    luigi.jumpCount = 10
+                    luigi.isJump = False
         timer += 1
         #redraw game window function to draw other entities that we want to draw
         redrawGameWindow2()
@@ -1437,7 +1873,10 @@ def game_lvl3():
     timer = 0
     star1_get = False
     mario.x = 55
-    mario.y = 682
+    mario.y = 655
+    if luigi2 == True:
+        luigi.x = 97
+        luigi.y = 655
     pygame.mouse.set_visible(False)
     jah = True
     #hudclock = 500
@@ -1453,7 +1892,10 @@ def game_lvl3():
     while jah:
         if mario.jumpCount <= -7:
             mario.jumpCount = -7
+        if luigi.jumpCount <= -7:
+            luigi.jumpCount = -7
         hitbox = pygame.Rect(mario.x, mario.y, mario.width, mario.height)
+        luigihit = pygame.Rect(luigi.x, luigi.y, luigi.width, luigi.height)
         startst = pygame.Rect(1150, 500, 32, 32)
         floor1 = pygame.Rect(0, 687, 1280, 64)
         floor2 = pygame.Rect(300, 350,200, 64)
@@ -1464,8 +1906,8 @@ def game_lvl3():
         muncher1 = pygame.Rect(500, 655, 100, 32)
         muncher2 = pygame.Rect(800, 655, 100, 32)
         wallonleft = pygame.Rect(298, 450, 16, 237)
-        wallonleft2 = pygame.Rect(898, 150, 16, 577)
-        wallonleft3 = pygame.Rect(598, 150, 16, 577)
+        wallonleft2 = pygame.Rect(898, 450, 16, 237)
+        wallonleft3 = pygame.Rect(598, 450, 16, 237)
         wallonright = pygame.Rect(486, 450, 16, 237)
         wallonright2 = pygame.Rect(1086, 450, 16, 237)
         wallonright3 = pygame.Rect(786, 450, 16, 237)
@@ -1475,9 +1917,14 @@ def game_lvl3():
         trampcheck = pygame.Rect.colliderect(hitbox, trampo)
         trampcheck2 = pygame.Rect.colliderect(hitbox, trampo2)
         trampcheck3 = pygame.Rect.colliderect(hitbox, trampo3)
+        trampcheck12 = pygame.Rect.colliderect(luigihit, trampo)
+        trampcheck22 = pygame.Rect.colliderect(luigihit, trampo2)
+        trampcheck32 = pygame.Rect.colliderect(luigihit, trampo3)
         grndtst = pygame.Rect.colliderect(hitbox,floor1)
+        grndtst2 = pygame.Rect.colliderect(luigihit,floor1)
         hitboxes = [startst, slime1, floor2, floor3, floor4, muncher1, muncher2, wallonleft, wallonright, slime2, wallonleft2, wallonleft3, wallonright2, wallonright3]
         hittest = pygame.Rect.collidelist(hitbox, hitboxes)
+        hittest2 = pygame.Rect.collidelist(luigihit, hitboxes)
         if hittest == -1 and grndtst == False and trampcheck == False and trampcheck2 == False and trampcheck3 == False and not(mario.isJump):
             mario.y -= (mario.fall * abs(mario.fall)) // 2
             mario.fall -= 0.75
@@ -1575,6 +2022,70 @@ def game_lvl3():
             mario.y = 687-mario.height
             mario.jumpCount = 10
             mario.isJump = False
+        if hittest2 == -1 and grndtst2 == False and trampcheck12 == False and trampcheck22 == False and trampcheck32 == False and not(luigi.isJump):
+            luigi.y -= (luigi.fall * abs(luigi.fall)) // 2
+            luigi.fall -= 0.75
+            if luigi.fall <= -3:
+                luigi.fall == 0
+                luigi.isJump = True
+                luigi.jumpCount = -3
+        else:
+            luigi.fall = 0
+        if hittest2 == -1:
+            wall_left2 = False
+            wall_right2 = False
+        if hittest2 == 0 and star1_get == False:
+            star1_get = True
+            star1_get_pause = True
+            star_cntr += 1
+            score += 10000
+            star.play()
+            redrawGameWindow3()
+            time.sleep(0.5)
+            pygame.mixer.music.stop()
+            cutscene()
+        if hittest2 == 8 or hittest2 == 12 or hittest2 == 13:
+            wall_left2 = True
+            wall_right2 = False
+        if hittest2 == 7 or hittest2 == 10 or hittest2 == 11:
+            wall_left2 = False
+            wall_right2 = True
+        if hittest2 == 5 or hittest2 == 6:
+            death.play()
+            score -= 100
+            oneup_cntr -= 1
+            luigi.y = 682-luigi.height
+            luigi.x = 55
+            wall_left2 = False
+            wall_right2 = False
+        if hittest2 == 2 or hittest2 == 3 or hittest2 == 4:
+            luigi.y = 350-luigi.height
+            luigi.jumpCount = 10
+            luigi.isJump = False
+        if hittest2 == 1 or hittest2 == 9:
+            luigi.jumpCount = -1
+        if trampcheck22 == True or trampcheck32 == True:
+            if keys[pygame.K_UP]:
+                tramp.play()
+                score += 50
+                luigi.jumpCount = 14
+            else:
+                luigi.y = (325 - luigi.height)
+                luigi.jumpCount = 14
+                luigi.isJump = False
+        if trampcheck12 == True:
+            if keys[pygame.K_UP]:
+                tramp.play()
+                score += 50
+                luigi.jumpCount = 14
+            else:
+                luigi.y = (660 - luigi.height)
+                luigi.jumpCount = 14
+                luigi.isJump = False
+        if grndtst2 == True:
+            luigi.y = 687-luigi.height
+            luigi.jumpCount = 10
+            luigi.isJump = False
         #p2 of frame limiter
         clock.tick(30)
         timetocomplete += 1
@@ -1678,6 +2189,93 @@ def game_lvl3():
                 mario.vel = 5
                 mario.jumpCount = 10
                 mario.isJump = False
+        """ -----------------
+            2nd player time
+            -----------------"""
+        if luigi2 == True:
+            #key to go left
+            if keys[pygame.K_LEFT] and luigi.x > luigi.vel and not(wall_left2):
+                luigi.idle_type = False
+                #if holding sprint button
+                if keys[pygame.K_LSHIFT]:
+                    if not(luigi.isJump):
+                        pass
+                    #double velocity (speed)
+                    luigi.vel = 10
+                    #move -x by the velocity
+                    luigi.x -= luigi.vel
+                    #change these statments for facing direction
+                    luigi.left = True
+                    luigi.right = False
+                #must not be wanting to sprint
+                else:
+                    if not(luigi.isJump):
+                        pass
+                    #normal velocity
+                    luigi.vel = 5
+                    #move -x by velocity
+                    luigi.x -= luigi.vel
+                    #facing directions
+                    luigi.left = True
+                    luigi.right = False
+            #key to go right
+            elif keys[pygame.K_RIGHT] and luigi.x < 1280 - luigi.vel - luigi.width and not(wall_right2):
+                luigi.idle_type = True
+                #if wanting to sprint
+                if keys[pygame.K_LSHIFT]:
+                    if not(luigi.isJump):
+                        pass
+                    #double velocity
+                    luigi.vel = 10
+                    #move +x by velocity
+                    luigi.x += luigi.vel
+                    #facing directions
+                    luigi.left = False
+                    luigi.right = True
+                else:
+                    if not(luigi.isJump):
+                        pass
+                    #normal velocity
+                    luigi.vel = 5
+                    #move +x by velocity
+                    luigi.x += luigi.vel
+                    #facing direction
+                    luigi.left = False
+                    luigi.right = True
+
+            #part of direction facing
+            else:
+                #standing still
+                luigi.left = False
+                luigi.right = False
+                luigi.walkCount = 0
+            #if is jump is false (to prevent jumping in air lol maybe i will allow double jump
+            if not(luigi.isJump):
+                #if spacebar is held (jump button)
+                if keys[pygame.K_UP]:
+                    score += 5
+                    jumpsnd.play()
+                    #is jump is now true (cannot jump anymore. begins jump procedure)
+                    luigi.isJump = True
+                    #dont walk in air and change direction
+                    luigi.left = False
+                    luigi.right = False
+                    #no walk animation in air
+                    luigi.walkCount = 0
+            #arc of falling
+            else:
+                if luigi.jumpCount >= -50:
+                    #quadratics reeeee
+                    #the abs makes the negative positive and the positive positive
+                    #w/o abs, charcater jumps to peak, and then goes up again, instead of down
+                    luigi.y -= (luigi.jumpCount * abs(luigi.jumpCount)) // 2
+                    luigi.jumpCount -= 0.8
+                    luigi.vel = 3
+                else:
+                    #jump has finished - cleanup
+                    luigi.vel = 5
+                    luigi.jumpCount = 10
+                    luigi.isJump = False
         timer += 1
         #redraw game window function to draw other entities that we want to draw
         redrawGameWindow3()
@@ -1703,7 +2301,10 @@ def game_lvl4():
     timer = 0
     star1_get = False
     mario.x = 55
-    mario.y = 682
+    mario.y = 655
+    if luigi2 == True:
+        luigi.x = 97
+        luigi.y = 655
     pygame.mouse.set_visible(False)
     jah = True
     #hudclock = 101
@@ -1720,6 +2321,7 @@ def game_lvl4():
         if mario.jumpCount <= -7:
             mario.jumpCount = -7
         hitbox = pygame.Rect(mario.x, mario.y, mario.width, mario.height)
+        luigihit = pygame.Rect(luigi.x, luigi.y, luigi.width, luigi.height)
         startst = pygame.Rect(1150, 500, 32, 32)
         floor1 = pygame.Rect(0, 687, 1280, 64)
         floor2 = pygame.Rect(445,55,111,32)
@@ -1763,8 +2365,18 @@ def game_lvl4():
         ceilingtest4 = pygame.Rect.colliderect(hitbox, ceiling4)
         cointest69 = pygame.Rect.colliderect(hitbox, coin123)
         grndtst = pygame.Rect.colliderect(hitbox,floor1)
+        trampcheck12 = pygame.Rect.colliderect(luigihit, trampo)
+        trampcheck22 = pygame.Rect.colliderect(luigihit, trampo2)
+        trampcheck32 = pygame.Rect.colliderect(luigihit, trampo3)
+        ceilingtest12 = pygame.Rect.colliderect(luigihit, ceiling1)
+        ceilingtest22 = pygame.Rect.colliderect(luigihit, ceiling2)
+        ceilingtest32 = pygame.Rect.colliderect(luigihit, ceiling3)
+        ceilingtest42 = pygame.Rect.colliderect(luigihit, ceiling4)
+        cointest692 = pygame.Rect.colliderect(luigihit, coin123)
+        grndtst2 = pygame.Rect.colliderect(luigihit,floor1)
         hitboxes = [startst, slime1, floor2, floor3, floor4, muncher1, muncher2, wallonleft, wallonright, slime2, wallonleft2, wallonleft3, wallonright2, wallonright3, floor5, floor6, floor7, muncher3, muncher4, wallonleft4, wallonleft5, wallonright4, wallonright5, wallonright6, wallonright7]
         hittest = pygame.Rect.collidelist(hitbox, hitboxes)
+        hittest2 = pygame.Rect.collidelist(luigihit, hitboxes)
         if hittest == -1 and grndtst == False and trampcheck == False and trampcheck2 == False and trampcheck3 == False and not(mario.isJump):
             mario.y -= (mario.fall * abs(mario.fall)) // 2
             mario.fall -= 0.75
@@ -2008,6 +2620,93 @@ def game_lvl4():
                 mario.vel = 5
                 mario.jumpCount = 10
                 mario.isJump = False
+        """ -----------------
+            2nd player time
+            -----------------"""
+        if luigi2 == True:
+            #key to go left
+            if keys[pygame.K_LEFT] and luigi.x > luigi.vel and not(wall_left):
+                luigi.idle_type = False
+                #if holding sprint button
+                if keys[pygame.K_LSHIFT]:
+                    if not(luigi.isJump):
+                        pass
+                    #double velocity (speed)
+                    luigi.vel = 10
+                    #move -x by the velocity
+                    luigi.x -= luigi.vel
+                    #change these statments for facing direction
+                    luigi.left = True
+                    luigi.right = False
+                #must not be wanting to sprint
+                else:
+                    if not(luigi.isJump):
+                        pass
+                    #normal velocity
+                    luigi.vel = 5
+                    #move -x by velocity
+                    luigi.x -= luigi.vel
+                    #facing directions
+                    luigi.left = True
+                    luigi.right = False
+            #key to go right
+            elif keys[pygame.K_RIGHT] and luigi.x < 1280 - luigi.vel - luigi.width and not(wall_right):
+                luigi.idle_type = True
+                #if wanting to sprint
+                if keys[pygame.K_LSHIFT]:
+                    if not(luigi.isJump):
+                        pass
+                    #double velocity
+                    luigi.vel = 10
+                    #move +x by velocity
+                    luigi.x += luigi.vel
+                    #facing directions
+                    luigi.left = False
+                    luigi.right = True
+                else:
+                    if not(luigi.isJump):
+                        pass
+                    #normal velocity
+                    luigi.vel = 5
+                    #move +x by velocity
+                    luigi.x += luigi.vel
+                    #facing direction
+                    luigi.left = False
+                    luigi.right = True
+
+            #part of direction facing
+            else:
+                #standing still
+                luigi.left = False
+                luigi.right = False
+                luigi.walkCount = 0
+            #if is jump is false (to prevent jumping in air lol maybe i will allow double jump
+            if not(luigi.isJump):
+                #if spacebar is held (jump button)
+                if keys[pygame.K_UP]:
+                    score += 5
+                    jumpsnd.play()
+                    #is jump is now true (cannot jump anymore. begins jump procedure)
+                    luigi.isJump = True
+                    #dont walk in air and change direction
+                    luigi.left = False
+                    luigi.right = False
+                    #no walk animation in air
+                    luigi.walkCount = 0
+            #arc of falling
+            else:
+                if luigi.jumpCount >= -50:
+                    #quadratics reeeee
+                    #the abs makes the negative positive and the positive positive
+                    #w/o abs, charcater jumps to peak, and then goes up again, instead of down
+                    luigi.y -= (luigi.jumpCount * abs(luigi.jumpCount)) // 2
+                    luigi.jumpCount -= 0.8
+                    luigi.vel = 3
+                else:
+                    #jump has finished - cleanup
+                    luigi.vel = 5
+                    luigi.jumpCount = 10
+                    luigi.isJump = False
         timer += 1
         #redraw game window function to draw other entities that we want to draw
         redrawGameWindow4()
@@ -2034,7 +2733,7 @@ def score_tally():
         besttime = time_yes
     else:
         besttime = lb[3]
-    smallText = pygame.font.Font("fonts/Mario64.ttf",40)
+    smallText = pygame.font.Font("fonts/SuperMario256.ttf",40)
     textSurf, textRect = text_objects("High score:  " + str(highscore), smallText)
     textRect.center = (1280//2, ((720//2)-150))
     win.blit(textSurf, textRect)
@@ -2053,9 +2752,17 @@ def score_tally():
     textSurf, textRect = text_objects("Hours : Minutes : Seconds.Milliseconds", smallText)
     textRect.center = (1280//2, (150+(720//2)) )
     win.blit(textSurf, textRect)
-    pygame.display.update()
+    pygame.display.flip()
     qwerty = True
     print(str(timedelta(seconds=timetocomplete2)))
+    with open('scoredata.dataconfig','r') as wrote:
+        reader =csv.reader(wrote, delimiter=',')
+        with open('scoredata.dataconfig','w+') as grope:  
+            writer = csv.writer(grope,delimiter=',')
+            for row in reader:
+                print(reader)
+                #writer.writerow([int(highscore)])
+
     while qwerty:
         clock.tick(27)
         for event in pygame.event.get():
@@ -2072,137 +2779,6 @@ def score_tally():
         if keys[pygame.K_RETURN]:
             fade_out(1280, 720)
             name()
-#2p test
-def game_loop_2p():
-    pygame.mouse.set_visible(False)
-    gcache = globals()
-    cache = str(sys.getsizeof(gcache))
-    print('Global cache: ' + cache)
-    print('2 player. WARNING: UNFINISHED. BASICALLY A SNAPSHOT FROM WHEN IT WAS IMPLEMENTED')
-    global luigi2
-    luigi2 = True
-    print(luigi2)
-    jah = True
-    #music jah
-    music = pygame.mixer.music.load('audio/music.mp3')
-    pygame.mixer.music.play(-1)
-    pygame.mixer.music.set_volume(0.5)
-    while jah:
-        #p2 of frame limiter
-        clock.tick(27)
-        #check whether closed to allow for safe quit
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                gcache = globals()
-                cache = str(sys.getsizeof(gcache))
-                print('Final Cache: ' + cache)
-                #un-init pygame modules
-                pygame.quit()
-                #sys exit
-                sys.exit()
-                #python exit
-                quit()
-        #part of finding what key your pressing
-        keys = pygame.key.get_pressed()
-        #key to go left
-        if keys[pygame.K_a] and mario.x > mario.vel:
-            if keys[pygame.K_LSHIFT]:
-                mario.vel = 10
-                mario.x -= mario.vel
-                mario.left = True
-                mario.right = False
-            else:
-                mario.vel = 5
-                mario.x -= mario.vel
-                mario.left = True
-                mario.right = False
-        #key to go right
-        elif keys[pygame.K_d] and mario.x < 1280 - mario.vel - mario.width:
-            if keys[pygame.K_LSHIFT]:
-                mario.vel = 10
-                mario.x += mario.vel
-                mario.left = False
-                mario.right = True
-            else:
-                mario.vel = 5
-                mario.x += mario.vel
-                mario.left = False
-                mario.right = True
-
-        #part of direction facing
-        else: 
-            mario.left = False
-            mario.right = False
-            mario.walkCount = 0
-        #jumping
-        if not(mario.isJump):
-            if keys[pygame.K_SPACE]:
-                jumpsnd.play()
-                mario.isJump = True
-                mario.left = False
-                mario.right = False
-                mario.walkCount = 0
-        #arc of falling
-        else:
-            if mario.jumpCount >= -10:
-                #quadratics reeeee
-                #the abs makes the negative positive and the positive positive
-                #w/o abs, charcater jumps to peak, and then goes up again, instead of down
-                mario.y -= (mario.jumpCount * abs(mario.jumpCount)) * 0.4
-                mario.jumpCount -= 1
-            else: 
-                mario.jumpCount = 10
-                mario.isJump = False
-        # --------------------------------------------------------------------
-        if keys[pygame.K_LEFT] and luigi.x > luigi.vel:
-            if keys[pygame.K_LSHIFT]:
-                luigi.vel = 10
-                luigi.x -= luigi.vel
-                luigi.left = True
-                luigi.right = False
-            else:
-                luigi.vel = 5
-                luigi.x -= luigi.vel
-                luigi.left = True
-                luigi.right = False
-        #key to go right
-        elif keys[pygame.K_RIGHT] and luigi.x < 1280 - luigi.vel - luigi.width:
-            if keys[pygame.K_LSHIFT]:
-                luigi.vel = 10
-                luigi.x += luigi.vel
-                luigi.left = False
-                luigi.right = True
-            else:
-                luigi.vel = 5
-                luigi.x += luigi.vel
-                luigi.left = False
-                luigi.right = True
-        #part of direction facing
-        else: 
-            luigi.left = False
-            luigi.right = False
-            luigi.walkCount = 0
-        #jumping
-        if not(luigi.isJump):
-            if keys[pygame.K_UP]:
-                jumpsnd.play()
-                luigi.isJump = True
-                luigi.left = False
-                luigi.right = False
-                luigi.walkCount = 0
-        #arc of falling
-        else:
-            if luigi.jumpCount >= -10:
-                #quadratics reeeee
-                #the abs makes the negative positive and the positive positive
-                #w/o abs, charcater jumps to peak, and then goes up again, instead of down
-                luigi.y -= (luigi.jumpCount * abs(luigi.jumpCount)) * 0.4
-                luigi.jumpCount -= 1
-            else: 
-                luigi.jumpCount = 10
-                luigi.isJump = False
-        #redraw game window
-        redrawGameWindow()
 if __name__ == '__main__':
     fade_out(1280,720)
     #score_tally()
