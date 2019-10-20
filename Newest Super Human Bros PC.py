@@ -720,7 +720,7 @@ def game_intro():
                 #wait a bit
                 time.sleep(0.1)
                 #call the one player function
-                #game_loop_1p()
+                luigi2 = False
                 game_loop_1p()
         #else if it is over the uit button
         elif 450+350 > mouse[0] > 450 and 480+80 > mouse[1] > 480:
@@ -990,6 +990,8 @@ def game_loop_1p():
     coin1_draw = True
     oneup_draw1 = True
     coin2_draw = True
+    coin_cntr = 0
+    oneup_cntr = 5
     coin3_draw = True
     timetocomplete = 0
     timetocomplete2 = 0
@@ -2296,8 +2298,8 @@ def game_lvl4():
     while jah:
         if mario.jumpCount <= -6:
             mario.jumpCount = -6
-        if mario.jumpCount <= -6:
-            mario.jumpCount = -6
+        if luigi.jumpCount <= -6:
+            luigi.jumpCount = -6
         hitbox = pygame.Rect(mario.x, mario.y, mario.width, mario.height)
         luigihit = pygame.Rect(luigi.x, luigi.y, luigi.width, luigi.height)
         startst = pygame.Rect(1150, 500, 32, 32)
