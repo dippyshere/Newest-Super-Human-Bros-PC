@@ -89,8 +89,6 @@ tramp_omg = pygame.image.load('pictures/Toranporin.png')
 star1 = pygame.image.load('pictures/star.png')
 #1up
 mushy = pygame.image.load('pictures/1upmushy.png')
-#cutscene test
-cutscenetest = pygame.image.load('test/Kattoshintesuto.png')
 #clock
 tokei = pygame.image.load('pictures/clock.png')
 #cutscene
