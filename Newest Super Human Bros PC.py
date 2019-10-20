@@ -613,6 +613,7 @@ def fade_white(width, height):
         time.sleep(0.01)
 #nearly less than one second of my name at begining of running program
 def name():
+    global frame_rate
     #make cursor invisible
     pygame.mouse.set_visible(False)
     coin1_draw = True
@@ -1296,7 +1297,7 @@ def game_loop_1p():
             game_loop_1p()
         timetocomplete += 1
         #p2 of frame limiter
-        clock.tick(30)
+        clock.tick(frame_rate)
         #check whether closed to allow for safe quit
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -1640,7 +1641,7 @@ def game_lvl2():
             wall_left2 = False
             wall_right2 = False
         #p2 of frame limiter
-        clock.tick(30)
+        clock.tick(frame_rate)
         timetocomplete += 1
         if star1_get == True and star1_get_pause == False and mario.y == 655:
             time.sleep(2)
@@ -2065,7 +2066,7 @@ def game_lvl3():
             luigi.jumpCount = 10
             luigi.isJump = False
         #p2 of frame limiter
-        clock.tick(30)
+        clock.tick(frame_rate)
         timetocomplete += 1
         if star1_get == True and star1_get_pause == False and mario.y == 655:
             time.sleep(2)
@@ -2608,7 +2609,7 @@ def game_lvl4():
             luigi.jumpCount = 10
             luigi.isJump = False
         #p2 of frame limiter
-        clock.tick(30)
+        clock.tick(frame_rate)
         timetocomplete += 1
         if star1_get == True and star1_get_pause == False and mario.y == 655:
             time.sleep(2)
@@ -2870,13 +2871,7 @@ def score_tally():
             name()
 if __name__ == '__main__':
     fade_out(1280,720)
-    #score_tally()
     name()
-    #game_loop_1p()
-    #game_lvl2()
-    #game_lvl3()
-    #game_lvl4()
-    #cutscene()
 #cya mate
 pygame.quit()
 sys.exit
