@@ -38,13 +38,13 @@ pygame.event.pump()
 #jump
 jumpsnd = pygame.mixer.Sound('audio/jump.wav')
 #start
-lvlstrt = pygame.mixer.Sound('audio/startlvl.wav')
+lvlstrt = pygame.mixer.Sound('audio/startlvl.ogg')
 #step
 sta = pygame.mixer.Sound('audio/step1.wav')
 #step2
 stb = pygame.mixer.Sound('audio/step2.wav')
 #coin
-coin_snd = pygame.mixer.Sound('audio/coin.wav')
+coin_snd = pygame.mixer.Sound('audio/coin.ogg')
 #trampoline
 tramp = pygame.mixer.Sound('audio/trampoline.wav')
 #oneup
@@ -54,7 +54,7 @@ star = pygame.mixer.Sound('audio/starget.wav')
 #death sound
 death = pygame.mixer.Sound('audio/death.wav')
 #when the timer reaches 100
-hurryup = pygame.mixer.Sound('audio/hurry up.wav')
+hurryup = pygame.mixer.Sound('audio/hurry up.ogg')
 
 """sprites and images"""
 #walk right list
@@ -666,7 +666,7 @@ def game_intro():
     #once again make global so it exists outside this function
     global luigi2
     #play our music
-    music = pygame.mixer.music.load('audio/sm64fs.mp3')
+    music = pygame.mixer.music.load('audio/sm64fs.ogg')
     pygame.mixer.music.play(-1)
     pygame.mixer.music.set_volume(0.6)
     #only explaining once, make this variable so we can make it false later
@@ -986,6 +986,18 @@ def game_loop_1p():
     global score
     global timetocomplete
     global timetocomplete2
+    star1_get = False
+    coin1_draw = True
+    oneup_draw1 = True
+    coin2_draw = True
+    coin3_draw = True
+    timetocomplete = 0
+    timetocomplete2 = 0
+    timer = 0
+    oneupdraw2 = True
+    star_cntr = 0
+    star1_get_pause = False
+    score = 0
     nextlvl = 1
     timer = 0
     hudclock = 200
@@ -995,7 +1007,7 @@ def game_loop_1p():
     global luigi2
     jah = True
     #music
-    music = pygame.mixer.music.load('audio/music.mp3')
+    music = pygame.mixer.music.load('audio/music.ogg')
     pygame.mixer.music.play(-1)
     pygame.mixer.music.set_volume(0.5)
     mario.x = 55
@@ -1265,7 +1277,7 @@ def game_loop_1p():
             pygame.mixer.music.stop()
             hurryup.play()
             time.sleep(0.4)
-            music = pygame.mixer.music.load('audio/music_faster.mp3')
+            music = pygame.mixer.music.load('audio/music_faster.ogg')
             pygame.mixer.music.play(-1)
         if timer == 0 and hudclock == 0:
             redrawGameWindow()
@@ -1274,7 +1286,7 @@ def game_loop_1p():
             score -= 100
             oneup_cntr -= 1
             pygame.mixer.music.stop()
-            music = pygame.mixer.music.load('audio/outoftime.mp3')
+            music = pygame.mixer.music.load('audio/outoftime.ogg')
             pygame.mixer.music.play(0)
             time.sleep(1)
             fade_out(1280,720)
@@ -1502,7 +1514,7 @@ def game_lvl2():
     if hudclock <= 5:
         hudclock = 101
     #music
-    music = pygame.mixer.music.load('audio/music.mp3')
+    music = pygame.mixer.music.load('audio/music.ogg')
     pygame.mixer.music.play(-1)
     pygame.mixer.music.set_volume(0.5)
     redrawGameWindow2()
@@ -1594,7 +1606,7 @@ def game_lvl2():
             pygame.mixer.music.stop()
             hurryup.play()
             time.sleep(0.4)
-            music = pygame.mixer.music.load('audio/music_faster.mp3')
+            music = pygame.mixer.music.load('audio/music_faster.ogg')
             pygame.mixer.music.play(-1)
         if timer == 0 and hudclock == 0:
             redrawGameWindow2()
@@ -1603,7 +1615,7 @@ def game_lvl2():
             score -= 100
             oneup_cntr -= 1
             pygame.mixer.music.stop()
-            music = pygame.mixer.music.load('audio/outoftime.mp3')
+            music = pygame.mixer.music.load('audio/outoftime.ogg')
             pygame.mixer.music.play(0)
             time.sleep(1)
             fade_out(1280,720)
@@ -1849,7 +1861,7 @@ def game_lvl3():
     wall_left = False
     wall_right = False
     #music
-    music = pygame.mixer.music.load('audio/music.mp3')
+    music = pygame.mixer.music.load('audio/music.ogg')
     pygame.mixer.music.play(-1)
     pygame.mixer.music.set_volume(0.5)
     redrawGameWindow3()
@@ -1924,7 +1936,7 @@ def game_lvl3():
             pygame.mixer.music.stop()
             hurryup.play()
             time.sleep(0.4)
-            music = pygame.mixer.music.load('audio/music_faster.mp3')
+            music = pygame.mixer.music.load('audio/music_faster.ogg')
             pygame.mixer.music.play(-1)
         if timer == 0 and hudclock == 0:
             redrawGameWindow3()
@@ -1933,7 +1945,7 @@ def game_lvl3():
             score -= 100
             oneup_cntr -= 1
             pygame.mixer.music.stop()
-            music = pygame.mixer.music.load('audio/outoftime.mp3')
+            music = pygame.mixer.music.load('audio/outoftime.ogg')
             pygame.mixer.music.play(0)
             time.sleep(1)
             fade_out(1280,720)
@@ -1946,7 +1958,7 @@ def game_lvl3():
           score -= 100
           oneup_cntr -= 1
           pygame.mixer.music.stop()
-          music = pygame.mixer.music.load('audio/outoftime.mp3')
+          music = pygame.mixer.music.load('audio/outoftime.ogg')
           pygame.mixer.music.play(0)
           hudclock = 101
           fade_out(1280,720)
@@ -2277,7 +2289,7 @@ def game_lvl4():
     wall_left = False
     wall_right = False
     #music
-    music = pygame.mixer.music.load('audio/music.mp3')
+    music = pygame.mixer.music.load('audio/music.ogg')
     pygame.mixer.music.play(-1)
     pygame.mixer.music.set_volume(0.5)
     redrawGameWindow4()
@@ -2383,7 +2395,7 @@ def game_lvl4():
             pygame.mixer.music.stop()
             hurryup.play()
             time.sleep(0.4)
-            music = pygame.mixer.music.load('audio/music_faster.mp3')
+            music = pygame.mixer.music.load('audio/music_faster.ogg')
             pygame.mixer.music.play(-1)
         if timer == 0 and hudclock == 0:
             redrawGameWindow4()
@@ -2392,7 +2404,7 @@ def game_lvl4():
             score -= 100
             oneup_cntr -= 1
             pygame.mixer.music.stop()
-            music = pygame.mixer.music.load('audio/outoftime.mp3')
+            music = pygame.mixer.music.load('audio/outoftime.ogg')
             pygame.mixer.music.play(0)
             time.sleep(1)
             hudclock = 101
