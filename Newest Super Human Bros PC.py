@@ -4,13 +4,21 @@ oneup is the life mushroom
 star is the end of level objective
 """
 #import libraries that I want to use
-import pygame, sys, time, os, random, csv
+import pygame, sys, time, os, random, csv,platform
 from datetime import timedelta
 from pygame.locals import *
 #initilise pygame functions
 pygame.init()
 #i thought this would help with the pitch issues
 pygame.mixer.init(48000, -16, 2, 1024)
+
+#if using darwin vs nt (mac vs new tech (windows))
+if os.name == 'nt' and platform.system() == 'Windows':
+    print('this game was tested on your platform and should run as intended')
+if 'darwin' in os.name:
+    print('this game may not work on your platform as it is mostly untested on Mac OS. You may proceed, however I can not guarantee any sucess.')
+else:
+    print('this game may not function as intended on your platform, or may function to varying degrees of sucess')
 
 #make window
 X = 1280
@@ -27,11 +35,15 @@ pygame.display.set_icon(icon)
 pygame.display.set_caption("Newest Super Human Bros PC")
 
 #loading beacuse it takes a while for those lists down there ˅
+#yes, this loading screen is real, lots of people asked me if it is just a timer or something
+#ts actually because of the cutscene list, which defins all the frames of the cutscene.
+#Because of its length, it takes time to start the game on first boot, and then a while after that too
 loadimg = pygame.image.load('pictures/loading.png')
 #draw it to the screen
 win.blit(loadimg, (0,0))
 #update the screen
 pygame.display.flip()
+#i thought this might help
 pygame.event.pump()
 
 """sounds"""
@@ -165,7 +177,7 @@ purple = (255,0,255)
 #multiplayer
 luigi2 = False
 
-#variables and settings
+#variables and settings (lots of settings go un-used in this build of the game)
 coin1_draw = True
 coin2_draw = True
 coin3_draw = True
@@ -189,6 +201,7 @@ frame_rate = 30
 music_smg = False
 
 """konami code"""
+#rip didnt get to impliment in time. may do in future release.
 up1 = False
 up2 = False
 down1 = False
@@ -202,9 +215,10 @@ a1 = False
 start = False
 konami = [False, False, False, False, False, False, False, False, False, False, False]
 
+#set icon again to make bloody sure that it makes the icon the icon ^_~
 pygame.display.set_icon(icon)
 
-#game save testing
+#game save testing unfortunately only reads doesnt write to file. ran out of time to impliment this functionality. most people wont notice this anyway.
 with open('scoredata.dataconfig','r') as data:
     csv_reader = csv.reader(data)
     for row in csv_reader:
@@ -316,6 +330,7 @@ def cutscene():
         win.blit(cutscene_img[i], (0,0))
         pygame.display.flip()
         clock.tick(15.4757281553398)
+    #this basically is a time.delay, time.wait, or time.sleep except this actually pumps events to the os so that the gui doesnt hang (allows for patrial compatibility
     please_work = True
     count0r = 0
     while please_work:
@@ -337,19 +352,24 @@ def cutscene():
         score_tally()
 
 """drawing functions"""
-#draw fuction level 1
+#draw fuction level 1. this function will have the most detail in what is going on.
 def redrawGameWindow():
+    #this calculates the time to draw to the screen based on how many times the game has looped / the frame rate
+    #then uses timedelta to convert seconds to a traditional time format.
     timetocomplete2 = timetocomplete/30
     time_yes = str(timedelta(seconds=timetocomplete2))
+    #there are lots of stray globals in this code. I make these variables globals so that they can be modified and accessed by other functions.
     global secret
     #global hitbox
     #global coin
     #make this variable global so it exists outside the function
     global luigi2
-    #draw the background
+    #draw the background, ground and trampoline
     win.blit(bg, (0,0))
     win.blit(grnd, (0, 659))
     win.blit(tramp_img, (150,655))
+    #if the player's position is between the bounds of the secret area, make the secret true, then that check will
+    #either draw the trasparent version, or the non transparent version.
     if (mario.x+mario.width) >= 400 and (mario.x+mario.width) <=688 and mario.y >= 655-16:
         secret = True
     else:
@@ -357,6 +377,8 @@ def redrawGameWindow():
     if luigi2 == True:
         if (luigi.x+luigi.width) >= 400 and (luigi.x+luigi.width) <=688 and luigi.y >= 655-16:
             secret = True
+    #if the user hasnt collected this specific one up.
+    #the layering in this code is important. items drawn at the top of the function will be drawn first, then going down, more items are drawn. 
     if oneup_draw2 == True:
         win.blit(oneup, (528, 655))
     if secret == True:
@@ -370,8 +392,7 @@ def redrawGameWindow():
     win.blit(bg1olv, (0,0))
     if oneup_draw1 == True:
         win.blit(oneup, (225, 153))
-    #uwu for some depth do drawing before this comment for behind mario, and do drawing after for infront of mario
-    #draw our character
+    #for some depth do drawing before this comment for behind mario, and do drawing after for infront of mario
     #if luigi 2 is true (if 2 player is called)
     if luigi2 == True:
         #draw both characters
@@ -386,6 +407,7 @@ def redrawGameWindow():
         win.blit(coin_img, (175,153))
     if coin2_draw == True:
         win.blit(coin_img, (275,153))
+    #stuff below this is where the hud is drawn
     win.blit(star_ig, (1150, 525))
     win.blit(oneup, (10, 52))
     win.blit(coin_hud, (10,10))
@@ -413,6 +435,7 @@ def redrawGameWindow():
     font = pygame.font.Font("fonts/SuperMario256.ttf",40)
     text = font.render("Time: " + time_yes,True,black)
     win.blit(text, (935,90))
+    #next update the screen. If the line below if flip, then it updates the whole screen, if its update and there are parameters in the box, update everything in that box.
     pygame.display.flip()
 
 #ditto level 2
@@ -614,6 +637,7 @@ def name():
     global frame_rate
     #make cursor invisible
     pygame.mouse.set_visible(False)
+    #all the stuff down here allows for the game to restart, with everything reset.
     coin1_draw = True
     coin2_draw = True
     coin3_draw = True
@@ -932,7 +956,7 @@ def instructions():
         TextSurf, TextRect = text_objects("2ND PLAYER: Left - Left  /  Right - Right  /  Up - Jump  /  Shift - Run", largeText)
         TextRect.center = ((X/2),(Y/2.5))
         win.blit(TextSurf, TextRect)
-        TextSurf, TextRect = text_objects("Note: 2 player is unfinished and is not part of the main game.", largeText)
+        TextSurf, TextRect = text_objects("Note: 2 player may not function as indented.", largeText)
         TextRect.center = ((X/2),(Y/2))
         win.blit(TextSurf, TextRect)
         TextSurf, TextRect = text_objects("To jump on a trampoline press the jump button", largeText)
@@ -969,8 +993,9 @@ def instructions():
         win.blit(textSurf, textRect)
         pygame.display.flip()
         clock.tick(27)
-#main game
+#main game. as with the redraw function, the first one will have most of the detail.
 def game_loop_1p():
+    #everything between this comment and the while loop makes sure that eveything is both a global variable, and it has the correct value upon starting the first level.
     global oneup_draw2
     global coin_counter
     global coin2_draw
@@ -985,6 +1010,24 @@ def game_loop_1p():
     global score
     global timetocomplete
     global timetocomplete2
+    #all the stuff down here allows for the game to restart, with everything reset.
+    coin1_draw = True
+    coin2_draw = True
+    coin3_draw = True
+    coin_counter = 0
+    oneup_cntr = 5
+    oneup_draw1 = True
+    star_cntr = 0
+    star1_get = False
+    star1_get_pause = False
+    secret = False
+    secret3_draw = False
+    secret4_draw = False
+    oneup_draw2 = True
+    hudclock = 200
+    nextlvl = 1
+    score = 00000000
+    timetocomplete = 0
     star1_get = False
     coin1_draw = True
     oneup_draw1 = True
@@ -1002,6 +1045,7 @@ def game_loop_1p():
     nextlvl = 1
     timer = 0
     hudclock = 200
+    #if the game is started with a timer of below 5 set it to 101
     if hudclock <= 5:
         hudclock = 101
     pygame.mouse.set_visible(False)
@@ -1311,6 +1355,8 @@ def game_loop_1p():
         if star1_get == True and star1_get_pause == False and mario.y == 655:
             time.sleep(2)
             star1_get_pause = True
+        if keys[pygame.K_y]:
+            game_loop_1p()
         if keys[pygame.K_a] and mario.x > mario.vel and not(wall_left):
             mario.idle_type = False
             #if holding sprint button
@@ -1658,6 +1704,8 @@ def game_lvl2():
                 quit()
         #part of finding what key your pressing
         keys = pygame.key.get_pressed()
+        if keys[pygame.K_y]:
+            game_loop_1p()
         #key to go left
         if keys[pygame.K_a] and mario.x > mario.vel and not(wall_left):
             mario.idle_type = False
@@ -2083,6 +2131,8 @@ def game_lvl3():
                 quit()
         #part of finding what key your pressing
         keys = pygame.key.get_pressed()
+        if keys[pygame.K_y]:
+            game_loop_1p()
         #key to go left
         if keys[pygame.K_a] and mario.x > mario.vel and not(wall_left):
             mario.idle_type = False
@@ -2626,6 +2676,8 @@ def game_lvl4():
                 quit()
         #part of finding what key your pressing
         keys = pygame.key.get_pressed()
+        if keys[pygame.K_y]:
+            game_loop_1p()
         #key to go left
         if keys[pygame.K_a] and mario.x > mario.vel and not(wall_left):
             mario.idle_type = False
@@ -2844,13 +2896,9 @@ def score_tally():
     pygame.display.flip()
     qwerty = True
     print(str(timedelta(seconds=timetocomplete2)))
-    #with open('scoredata.dataconfig','r') as wrote:
-        #reader =csv.reader(wrote, delimiter=',')
-        #with open('scoredata.dataconfig','w+') as grope:  
-            #writer = csv.writer(grope,delimiter=',')
-            #for row in reader:
-                #print(reader)
-                #writer.writerow([int(highscore)])
+    #with open('scoredata.dataconfig','w+') as grope:  
+        #writer = csv.writer(grope,delimiter=',')
+        #writer.writerow([int(highscore),lb[1],lb[2],lb[3],lb[4]])
     while qwerty:
         clock.tick(27)
         for event in pygame.event.get():
