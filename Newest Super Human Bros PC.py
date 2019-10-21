@@ -15,10 +15,10 @@ pygame.mixer.init(48000, -16, 2, 1024)
 #if using darwin vs nt (mac vs new tech (windows))
 if os.name == 'nt' and platform.system() == 'Windows':
     print('this game was tested on your platform and should run as intended')
-if 'darwin' in os.name:
-    print('this game may not work on your platform as it is mostly untested on Mac OS. You may proceed, however I can not guarantee any sucess.')
 else:
     print('this game may not function as intended on your platform, or may function to varying degrees of sucess')
+if 'darwin' in os.name:
+    print('this game may not work on your platform as it is mostly untested on Mac OS. You may proceed, however I can not guarantee any sucess.')
 
 #make window
 X = 1280
@@ -956,7 +956,7 @@ def instructions():
         TextSurf, TextRect = text_objects("2ND PLAYER: Left - Left  /  Right - Right  /  Up - Jump  /  Shift - Run", largeText)
         TextRect.center = ((X/2),(Y/2.5))
         win.blit(TextSurf, TextRect)
-        TextSurf, TextRect = text_objects("Note: 2 player may not function as indented.", largeText)
+        TextSurf, TextRect = text_objects("Press Y to Reset back to level 1.", largeText)
         TextRect.center = ((X/2),(Y/2))
         win.blit(TextSurf, TextRect)
         TextSurf, TextRect = text_objects("To jump on a trampoline press the jump button", largeText)
