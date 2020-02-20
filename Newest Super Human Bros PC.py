@@ -10,12 +10,12 @@ from pygame.locals import *
 #initilise pygame functions
 pygame.init()
 #i thought this would help with the pitch issues
-pygame.mixer.init(48000, -16, 2, 1024)
+pygame.mixer.init()
 
 #if using darwin vs nt (mac vs new tech (windows))
 if os.name == 'nt' and platform.system() == 'Windows':
     print('this game was tested on your platform and should run as intended')
-else:
+elif not(os.name == 'nt') and not('darwin' in os.name):
     print('this game may not function as intended on your platform, or may function to varying degrees of sucess')
 if 'darwin' in os.name:
     print('this game may not work on your platform as it is mostly untested on Mac OS. You may proceed, however I can not guarantee any sucess.')
